@@ -1,4 +1,6 @@
 <?php
+// include our functions file
+include('inc/func.soal.php');
 
 class Database{
 	/* 

@@ -83,21 +83,24 @@ function is_can_access($levels){
 
   $can_access = false;
 
-  if(is_array($levels)){
-    foreach ($levels as $level) {
-      $levelname = get_level_name($level);
-        if($levelname == $_SESSION['level'])
-          $can_access = true;
+  if(!empty($_SESSION['level'])){
+    if(is_array($levels)){
+      foreach ($levels as $level) {
+          if($level == $_SESSION['level'])
+            $can_access = true;
+      }
+    } else {
+      // echo $levels; exit();
+        if($levels == $_SESSION['level'])
+            $can_access = true;
     }
-  } else {
-      $levelname = get_level_name($levels);
-      if($levelname == $_SESSION['level'])
-          $can_access = true;
   }
+
 
   // if user can't access this page, redirect please
   if(!$can_access){
-    echo '<script language="javascript">alert("Silahkan Login Terlebih Dahulu!"); document.location="login.php";</script>';
+    header('location:login.php');
+    // echo '<script language="javascript">alert("Silahkan Login Terlebih Dahulu!"); document.location="login.php";</script>';
     return false;
   }
 

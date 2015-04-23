@@ -1,4 +1,32 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+if(isset($_POST['btn-login'])){
+	// safety first :)
+	$user = mysql_real_escape_string(htmlentities($_POST['username']));
+	$pass = mysql_real_escape_string(htmlentities(md5($_POST['password'])));
+
+	include('inc/class.db.php');
+
+	$db = new Database();
+	$db->connect();
+
+	$db->select('tbl_users', '*', '', 'username="'.$user.'" AND password="'.$pass.'"');
+	$numRows = $db->numRows();
+	$res = $db->getResult();
+
+	if($numRows == 1){
+
+		$_SESSION['id_user'] = $res[0]['id'];
+		$_SESSION['username'] = $res[0]['username'];
+		$_SESSION['nama'] = $res[0]['nama'];
+		$_SESSION['level'] = $res[0]['level'];
+
+		header('location:test.php');
+
+		// echo '<script language="javascript">alert("Anda berhasil Login '.$_SESSION['nama'].'!); document.location="dashboard.php";</script>';
+	}
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,33 +55,6 @@
   </head>
 
   <body>
-  	<?php  
-
-	 if(isset($_POST['btn-login'])){
-	 	// safety first :)
-	 	$user = mysql_real_escape_string(htmlentities($_POST['username']));
-		$pass = mysql_real_escape_string(htmlentities(md5($_POST['password'])));
-
-		include('inc/class.db.php');
-
-		$db = new Database();
-		$db->connect();
-
-		$db->select('tbl_users', '*', '', 'username="'.$user.'" AND password="'.$pass.'"');
-		$numRows = $db->numRows();
-		$res = $db->getResult();
-
-		if($numRows == 1){
-
-			$_SESSION['id_user'] = $res[0]['id'];
-			$_SESSION['username'] = $res[0]['username'];
-			$_SESSION['nama'] = $res[0]['nama'];
-			$_SESSION['level'] = $res[0]['level'];
-
-			echo '<script language="javascript">alert("Anda berhasil Login '.$_SESSION['nama'].'! sebagai '.$_SESSION['level'].'"); document.location="dashboard.php";</script>';
-		}
-	 }
-	 ?>
 
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT

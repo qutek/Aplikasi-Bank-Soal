@@ -1,10 +1,8 @@
 <?php
-// is_can_access('siswa');
 include('inc/class.db.php');
-include('header.php'); 
+is_can_access('1');
 
-// just admin
-is_can_access('administrator');
+include('header.php');
 
 // sesuaikan disini
 $data = array(
