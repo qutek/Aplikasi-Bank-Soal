@@ -357,12 +357,12 @@ $db->connect();
                                 <hr>
                                 <table class='table table-striped table-advance table-hover'>
                                     <tr>
-                                       <th>No.</th>
+                                       <th class="no">No.</th>
                                        <th>ID Pengguna</th>
                                        <th>Nama</th>
                                        <th>Password</th>
                                        <th>Level</th>
-                                       <th colspan="2" align="center">Actions</th>
+                                       <th class="action" align="center">Actions</th>
                                     </tr>
                                     <?php 
                                     $i = 1;

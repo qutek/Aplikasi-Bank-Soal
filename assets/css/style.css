@@ -2250,3 +2250,9 @@ a.button-add {
 form.form-add {
     padding: 10px;
 }
+th.no {
+    width: 10px;
+}
+th.action {
+    width: 100px;
+}
