@@ -95,7 +95,7 @@ function is_can_access($levels){
 
   // if user can't access this page, redirect please
   if(!$can_access){
-    echo '<script language="javascript">alert("Anda harus Login!"); document.location="../index.php";</script>';
+    echo '<script language="javascript">alert("Silahkan Login Terlebih Dahulu!"); document.location="login.php";</script>';
     return false;
   }
 
