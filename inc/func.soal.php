@@ -85,12 +85,14 @@ function is_can_access($levels){
 
   if(is_array($levels)){
     foreach ($levels as $level) {
-      if(isset($_SESSION[$level]))
-        $can_access = true;
+      $levelname = get_level_name($level);
+        if($levelname == $_SESSION['level'])
+          $can_access = true;
     }
   } else {
-    if(isset($_SESSION[$level]))
-        $can_access = true;
+      $levelname = get_level_name($levels);
+      if($levelname == $_SESSION['level'])
+          $can_access = true;
   }
 
   // if user can't access this page, redirect please

@@ -44,26 +44,13 @@
 		$res = $db->getResult();
 
 		if($numRows == 1){
-			$level = $res[0]['level'];
-			$username = $res[0]['username'];
 
-			switch ($level) {
-				case '1':
-					$_SESSION['admin']=$username;
-					echo '<script language="javascript">alert("Anda berhasil Login Admin!"); document.location="dashboard.php";</script>';
-					break;
-				
-				case '2':
-					$_SESSION['guru']=$username;
-					echo '<script language="javascript">alert("Anda berhasil Login Guru!"); document.location="dashboard.php";</script>';
-					break;
-				
-				case '3':
-					$_SESSION['siswa']=$username;
-					echo '<script language="javascript">alert("Anda berhasil Login Siswa!"); document.location="dashboard.php";</script>';
-					break;
-			}
+			$_SESSION['id_user'] = $res[0]['id'];
+			$_SESSION['username'] = $res[0]['username'];
+			$_SESSION['nama'] = $res[0]['nama'];
+			$_SESSION['level'] = $res[0]['level'];
 
+			echo '<script language="javascript">alert("Anda berhasil Login '.$_SESSION['nama'].'! sebagai '.$_SESSION['level'].'"); document.location="dashboard.php";</script>';
 		}
 	 }
 	 ?>

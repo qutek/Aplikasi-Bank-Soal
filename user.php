@@ -4,7 +4,7 @@ include('inc/class.db.php');
 include('header.php'); 
 
 // just admin
-is_can_access('admin');
+is_can_access('administrator');
 
 // sesuaikan disini
 $data = array(
