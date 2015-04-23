@@ -1,19 +1,16 @@
 <?php
 include('inc/class.db.php');
-is_can_access('1');
+is_can_access('1','2');
 
 include('header.php');
 
-// sesuaikan disini
+// change it here
 $data = array(
     'name' => 'Pengguna',
-    'list_link' => 'user.php',
+    'base_file' => 'user.php',
+    'table' => 'users',
+    'perpage' => '10',
     );
-
-$table = 'tbl_users';
-
-$query = "SELECT * FROM tbl_users";       
-$records_per_page=3;
 
 $db = new Database();
 $db->connect();
@@ -55,14 +52,14 @@ $db->connect();
                                         </div>
                                     <?php } else {
 
-                                        $db->insert($table, array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'level' => $level));  // Table name, column names and respective values
+                                        $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'level' => $level));  // Table name, column names and respective values
                                         $res = $db->getResult();  
 
                                         // display notification if have submited form
                                         if (isset($res[0]) && is_integer($res[0])) {
                                             ?>
                                             <div class="alert alert-info">
-                                                <?php echo $data['name']; ?> berhasil ditambahkan. | <a href='<?php echo $data['list_link']; ?>'>Kembali ke daftar <?php echo $data['name']; ?></a>
+                                                <?php echo $data['name']; ?> berhasil ditambahkan. | <a href='<?php echo $data['base_file']; ?>'>Kembali ke daftar <?php echo $data['name']; ?></a>
                                             </div>
                                             <?php
                                         } else {
@@ -116,7 +113,7 @@ $db->connect();
                                                 <button type="submit" class="btn btn-primary" name="btn-save">
                                                 <span class="glyphicon glyphicon-plus"></span> Tambah <?php echo $data['name']; ?>
                                                 </button>  
-                                                <a href="<?php echo $data['list_link']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Kembali ke daftar <?php echo $data['name']; ?></a>
+                                                <a href="<?php echo $data['base_file']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Kembali ke daftar <?php echo $data['name']; ?></a>
                                                 </td>
                                             </tr>
                                      
@@ -150,31 +147,40 @@ $db->connect();
                                     $password = $db->escapeString($_POST['password']);
                                     $level = $db->escapeString($_POST['level']);
 
-                                    if(!empty($password)){
-                                        // update password too
-                                        $params = array('username' => $username, 'nama' => $nama, 'password' => md5($password), 'level' => $level);
-                                    } else {
-                                        $params = array('username' => $username, 'nama' => $nama, 'level' => $level);
-                                    }
-                                    $db->update($table, $params, "id='".$id."'");
-                                    $success = $db->getResult();
+                                    if(empty($username) || empty($nama) || empty($level) ){ ?>
+                                        <div class="alert alert-warning">
+                                            Mohon lengkapi form !
+                                        </div>
+                                     <?php } else {   
 
-                                    if($success) {
-                                        $msg = "<div class='alert alert-info'>
-                                                ".$data['name']." berhasil diupdate! | <a href='".$data['list_link']."'>Kembali ke daftar ".$data['name']."</a>
-                                                </div>";
-                                    } else {
-                                        $msg = "<div class='alert alert-warning'>
-                                                ".$data['name']." gagal diupdate !
-                                                </div>";
-                                    }
+                                        if(!empty($password)){
+                                            // update password too
+                                            $params = array('username' => $username, 'nama' => $nama, 'password' => md5($password), 'level' => $level);
+                                        } else {
+                                            $params = array('username' => $username, 'nama' => $nama, 'level' => $level);
+                                        }
+                                        $db->update($data['table'], $params, "id='".$id."'");
+                                        $success = $db->getResult();
 
-                                    if(isset($msg)) {
-                                        echo $msg;
-                                    }
+                                        // print_r($success); exit();
+
+                                        if($success) {
+                                            $msg = "<div class='alert alert-info'>
+                                                    ".$data['name']." berhasil diupdate! | <a href='".$data['base_file']."'>Kembali ke daftar ".$data['name']."</a>
+                                                    </div>";
+                                        } else {
+                                            $msg = "<div class='alert alert-warning'>
+                                                    ".$data['name']." gagal diupdate !
+                                                    </div>";
+                                        }
+
+                                        if(isset($msg)) {
+                                            echo $msg;
+                                        }
+                                    } // if not empty input
                                 }
 
-                                $db->select($table, '*','','id="'.$_GET['id'].'"');
+                                $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
                                 $res = $db->getResult();
                                 ?>
                                 <!-- Form goes here, change it here -->
@@ -216,7 +222,7 @@ $db->connect();
                                                     <button type="submit" class="btn btn-primary" name="btn-update">
                                                     <span class="glyphicon glyphicon-edit"></span>  Update data <?php echo $data['name']; ?>
                                                     </button>
-                                                    <a href="<?php echo $data['list_link']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Batal</a>
+                                                    <a href="<?php echo $data['base_file']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Batal</a>
                                                 </td>
                                             </tr>
                                      
@@ -251,7 +257,7 @@ $db->connect();
 
                             if(isset($_POST['btn-del'])) {
                                 $id = $_GET['id'];
-                                $db->delete($table, "id='".$id."'");
+                                $db->delete($data['table'], "id='".$id."'");
                                 $res = $db->getResult();
 
                                 // if deleted set status to true for display alert
@@ -289,7 +295,7 @@ $db->connect();
                                          </tr>
                                          <tr>
                                              <?php
-                                                $db->select($table, '*','','id="'.$_GET['id'].'"');
+                                                $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
                                                 $res = $db->getResult();
                                              ?>
                                              <td><?php echo $res[0]['username']; ?></td>
@@ -309,14 +315,14 @@ $db->connect();
                                     <form class="form-add" method="post">
                                     <input type="hidden" name="id" value="<?php echo $res[0]['id']; ?>" />
                                     <button class="btn btn-large btn-primary" type="submit" name="btn-del"><i class="glyphicon glyphicon-trash"></i> &nbsp; Ya, hapus</button>
-                                    <a href="<?php echo $data['list_link']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Tidak, kembali</a>
+                                    <a href="<?php echo $data['base_file']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Tidak, kembali</a>
                                     </form>  
                                     <?php
                                 }
                                 else
                                 {
                                     ?>
-                                    <a href="<?php echo $data['list_link']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Kembali ke daftar <?php echo $data['name']; ?></a>
+                                    <a href="<?php echo $data['base_file']; ?>" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Kembali ke daftar <?php echo $data['name']; ?></a>
                                     <?php
                                 }
                                 ?>
@@ -334,8 +340,12 @@ $db->connect();
                     /**************************************
                     * Default page view goes here, display the data.
                     ***************************************/
+                    $db->sql("SELECT id FROM ".$data['table']);
 
-                    $db->sql($query);
+                    $pages = new Pagination($data['perpage'],'hal');
+                    $pages->set_total($db->numRows()); // pass number of rows to use on pagination
+
+                    $db->sql("SELECT * FROM ".$data['table']." ".$pages->get_limit() );
                     $res = $db->getResult();
                     ?>
                     <section class="wrapper">
@@ -364,25 +374,17 @@ $db->connect();
                                         <td>*******</td>
                                         <td><?php echo get_level_name($user['level']); ?></td>
                                         <td>
-                                            <a href="<?php echo $data['list_link']; ?>?act=edit&id=<?php echo $user['id']; ?>" title="Edit <?php echo $data['name']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="<?php echo $data['list_link']; ?>?act=hapus&id=<?php echo $user['id']; ?>" title="Hapus <?php echo $data['name']; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                            <a href="<?php echo $data['base_file']; ?>?act=edit&id=<?php echo $user['id']; ?>" title="Edit <?php echo $data['name']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                            <a href="<?php echo $data['base_file']; ?>?act=hapus&id=<?php echo $user['id']; ?>" title="Hapus <?php echo $data['name']; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
                                         </td>
                                     </tr>
                                     <?php 
                                     $i++;
                                     }
-
-                                    // $newquery = $crud->paging($query,$records_per_page);
-                                    // $crud->dataview($newquery);
                                     ?>
-                                    <tr>
-                                        <td colspan="7" align="center">
-                                            <div class="pagination-wrap">
-                                                <?php // $crud->paginglink($query,$records_per_page); ?>
-                                            </div>
-                                        </td>
-                                    </tr>
                                 </table>
+
+                                <?php echo $pages->page_links(); ?>
                                     
                                   </div><! --/content-panel -->
                               </div><!-- /col-md-12 -->
@@ -396,4 +398,6 @@ $db->connect();
 
       <!--main content end-->
 
-<?php include_once 'footer.php'; ?>
+<?php 
+$db->connect();
+include('footer.php'); ?>

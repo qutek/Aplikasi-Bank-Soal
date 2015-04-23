@@ -1,6 +1,7 @@
 <?php
 // include our functions file
-include('inc/func.soal.php');
+include('func.soal.php');
+include('class.pagination.php');
 
 class Database{
 	/* 

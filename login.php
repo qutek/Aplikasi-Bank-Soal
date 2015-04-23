@@ -10,7 +10,7 @@ if(isset($_POST['btn-login'])){
 	$db = new Database();
 	$db->connect();
 
-	$db->select('tbl_users', '*', '', 'username="'.$user.'" AND password="'.$pass.'"');
+	$db->select('users', '*', '', 'username="'.$user.'" AND password="'.$pass.'"');
 	$numRows = $db->numRows();
 	$res = $db->getResult();
 
@@ -21,7 +21,7 @@ if(isset($_POST['btn-login'])){
 		$_SESSION['nama'] = $res[0]['nama'];
 		$_SESSION['level'] = $res[0]['level'];
 
-		header('location:test.php');
+		header('location:dashboard.php');
 
 		// echo '<script language="javascript">alert("Anda berhasil Login '.$_SESSION['nama'].'!); document.location="dashboard.php";</script>';
 	}
