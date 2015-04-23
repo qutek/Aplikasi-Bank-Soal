@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>DASHGUM - FREE Bootstrap Admin Template</title>
+    <title>Aplikasi Bank Soal</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -42,7 +41,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>DASHGUM FREE</b></a>
+            <a href="index.html" class="logo"><b>Aplikasi Bank Soal</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -198,6 +197,8 @@
       <!--sidebar start-->
       <aside>
           <div id="sidebar"  class="nav-collapse ">
+              <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+             <h5 class="centered">Bank Soal</h5>
               <!-- sidebar menu start-->
               <?php  
 
@@ -231,7 +232,14 @@
                     'soal' => array(
                         'icon'  =>  'fa-desktop',
                         'title' =>  'Soal',
-                        'link'  =>  'soal.php'
+                        'link'  =>  '#'
+                        ),
+
+                    'daftar_soal' => array(
+                        'icon'  =>  'fa-user',
+                        'title' =>  'Daftar Soal',
+                        'link'  =>  'soal.php',
+                        'parent' => 'soal'
                         ),
 
                     'tambah_soal' => array(

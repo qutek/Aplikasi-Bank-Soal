@@ -233,6 +233,7 @@ ul.top-menu > li > .logout {
     height: 100%;
     position: fixed;
     background: #424a5d;
+    padding-top: 75px;
 }
 
 #sidebar h5 {
@@ -283,7 +284,7 @@ ul.sidebar-menu , ul.sidebar-menu li ul.sub{
 }
 
 ul.sidebar-menu {
-    margin-top: 75px;
+    /*margin-top: 75px;*/
 }
 
 #sidebar > ul > li > ul.sub {
@@ -2255,4 +2256,7 @@ th.no {
 }
 th.action {
     width: 100px;
+}
+h5.pertanyaan {
+    line-height: 20px;
 }

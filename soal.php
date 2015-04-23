@@ -408,5 +408,5 @@ $db->connect();
       <!--main content end-->
 
 <?php 
-$db->connect();
+$db->disconnect();
 include('footer.php'); ?>
