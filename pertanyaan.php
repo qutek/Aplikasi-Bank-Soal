@@ -358,11 +358,11 @@ if(isset($_POST['btn-save'])) {
     $('.list-primary').click(function(){
         $(this).find('.jawaban').attr('checked', 'checked');
     });
-    $('.jawaban').each(function( index, elem ) {
-      if($(elem).attr("checked", "checked")){
-        alert('ok');
-      }
-    });
+    // $('.jawaban').each(function( index, elem ) {
+    //   if($(elem).attr("checked", "checked")){
+    //     alert('ok');
+    //   }
+    // });
 </script>
 
 
