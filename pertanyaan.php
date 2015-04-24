@@ -237,7 +237,7 @@ if(isset($_POST['btn-save'])) {
       <!--main content start-->
       <section id="main-content-pertanyaan">
           <section class="wrapper">
-            <h3><i class="fa fa-angle-right"></i> Pertanyaan</h3>
+            <h3><i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan</h3>
             <?php if($success){ ?>
                 <div class='alert alert-success text-center'>
                     <h4>Jawaban berhasil disimpan !</h4>
@@ -254,13 +254,8 @@ if(isset($_POST['btn-save'])) {
                 $db = new Database();
                 $db->connect();
 
-                $db->select($data['table'], 'id');
-
-                $pages = new Pagination($data['perpage'],'hal');
-                $pages->set_total($db->numRows()); // pass number of rows to use on pagination
-
                 // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
-                $db->select($data['table'], '*', '', null, '', $pages->get_limit());
+                $db->select($data['table'], '*', '', null, 'RAND()', $data['perpage']);
                 $res = $db->getResult();
 
                 // echo "<pre>";
@@ -274,7 +269,7 @@ if(isset($_POST['btn-save'])) {
                         <div class="panel-heading">
                             <div class="pull-left">
                                 <h5 class="pertanyaan">
-                                  <i class="fa fa-tasks"></i>  <?php echo $pertanyaan['soal']; ?>
+                                  <i class="fa fa-arrow-circle-o-right" style="margin-right:5px;"></i>  <?php echo $pertanyaan['soal']; ?>
                                 </h5>
                             </div>
                             <br>
@@ -329,6 +324,7 @@ if(isset($_POST['btn-save'])) {
                 </div><!--/col-md-6  -->
                 <?php } ?>
             </div><!-- /row pertanyaan-->
+            <?php if(!$success) { ?>
             <div class="row mt">
                 <div class="col-lg-12">
                     <div class="form-panel panel-submit">
@@ -336,6 +332,7 @@ if(isset($_POST['btn-save'])) {
                     </div><!-- /form-panel -->
                 </div><!-- /col-lg-12 -->
             </div>
+            <?php } ?>
             </form>
 
         </section><! --/wrapper -->
@@ -361,7 +358,11 @@ if(isset($_POST['btn-save'])) {
     $('.list-primary').click(function(){
         $(this).find('.jawaban').attr('checked', 'checked');
     });
-    $('.jawaban').checked()
+    $('.jawaban').each(function( index, elem ) {
+      if($(elem).attr("checked", "checked")){
+        alert('ok');
+      }
+    });
 </script>
 
 

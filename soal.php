@@ -31,7 +31,7 @@ $db->connect();
                     ?>
 
                     <section class="wrapper">
-                    <h3><i class="fa fa-user"></i> Tambah <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-puzzle-piece"></i> Tambah <?php echo $data['name']; ?></h3>
                         <div class="row">
 
                               <div class="col-md-12">
@@ -147,7 +147,7 @@ $db->connect();
 
                     ?>
                     <section class="wrapper">
-                    <h3><i class="fa fa-user"></i> Edit <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-puzzle-piece"></i> Edit <?php echo $data['name']; ?></h3>
                         <div class="row">
                               <div class="col-md-12">
 
@@ -268,7 +268,7 @@ $db->connect();
                     
                     ?>
                     <section class="wrapper">
-                    <h3><i class="fa fa-user"></i> Edit <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-puzzle-piece"></i> Edit <?php echo $data['name']; ?></h3>
                         <div class="row">
                             <div class="col-md-12">
 
@@ -365,7 +365,7 @@ $db->connect();
                     $res = $db->getResult();
                     ?>
                     <section class="wrapper">
-                        <h3><i class="fa fa-user"></i> Daftar <?php echo $data['name']; ?></h3>
+                        <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; ?></h3>
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">

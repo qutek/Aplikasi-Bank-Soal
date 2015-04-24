@@ -230,26 +230,26 @@
                         ),
 
                     'pertanyaan' => array(
-                        'icon'  =>  'fa-desktop',
+                        'icon'  =>  'fa-mortar-board',
                         'title' =>  'Pertanyaan',
                         'link'  =>  'index.php'
                         ),
                     
                     'soal' => array(
-                        'icon'  =>  'fa-desktop',
+                        'icon'  =>  'fa-puzzle-piece',
                         'title' =>  'Soal',
                         'link'  =>  '#'
                         ),
 
                     'daftar_soal' => array(
-                        'icon'  =>  'fa-user',
+                        'icon'  =>  'fa-puzzle-piece',
                         'title' =>  'Daftar Soal',
                         'link'  =>  'soal.php',
                         'parent' => 'soal'
                         ),
 
                     'tambah_soal' => array(
-                        'icon'  =>  'fa-desktop',
+                        'icon'  =>  'fa-plus',
                         'title' =>  'Tambah Soal',
                         'link'  =>  'soal.php?act=tambah',
                         'parent' => 'soal'

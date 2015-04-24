@@ -241,5 +241,6 @@ include('header.php');
       </section>
 
       <!--main content end-->
+      <?php $notif = true; ?>
 <?php
 include('footer.php'); ?>
