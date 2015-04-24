@@ -340,12 +340,13 @@ $db->connect();
                     /**************************************
                     * Default page view goes here, display the data.
                     ***************************************/
-                    $db->sql("SELECT id FROM ".$data['table']);
+                    $db->select($data['table']);
 
                     $pages = new Pagination($data['perpage'],'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
 
-                    $db->sql("SELECT * FROM ".$data['table']." ".$pages->get_limit() );
+                    // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
+                    $db->select($data['table'], '*', '', '', '', $pages->get_limit() );
                     $res = $db->getResult();
                     ?>
                     <section class="wrapper">

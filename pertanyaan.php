@@ -7,14 +7,41 @@ $data = array(
     'name' => 'Pertanyaan',
     'base_file' => 'index.php',
     'table' => 'soal',
+    'table_hasil' => 'hasil',
     'perpage' => '10',
     );
 
-$db = new Database();
-$db->connect();
+$insertdb = new Database();
+$insertdb->connect();
 
 if(isset($_POST['btn-save'])) {
-    echo "string"; exit();
+
+    // rebuild array to get id soal from post 'dipilih_{id_soal}
+    $soal = array();
+    foreach ($_POST as $key => $value) {
+        $get_id_soal = str_replace('dipilih_', '', $key);
+        $soal[$get_id_soal] = $value;
+    }
+
+    $success = false;
+
+    // looping for insert to table
+    foreach ($soal as $id => $jaw) { 
+        $id_user = $insertdb->escapeString($_POST['id_user']); // Escape any input before insert
+        $id_soal = $insertdb->escapeString($id);
+        $jawaban = $insertdb->escapeString($jaw);
+
+        if($id != 'id_user' && $id != 'btn-save'){
+            $insertdb->insert($data['table_hasil'], array('id_user'=>$id_user, 'id_soal'=> $id_soal, 'jawaban'=> $jawaban));
+        }
+
+        $res = $insertdb->getResult();
+        // echo $res[0].'<br>';
+
+        if(is_int($res[0])){
+            $success = true;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -52,14 +79,14 @@ if(isset($_POST['btn-save'])) {
       <header class="header black-bg">
 
         <!--logo start-->
-        <a href="index.html" class="logo"><b>Aplikasi Bank Soal</b></a>
+        <a href="index.php" class="logo"><b>Aplikasi Bank Soal</b></a>
         <!--logo end-->
         <div class="nav notify-row" id="top_menu">
             <!--  notification start -->
             <ul class="nav top-menu">
                 <!-- settings start -->
                 <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
                         <i class="fa fa-tasks"></i>
                         <span class="badge bg-theme">4</span>
                     </a>
@@ -69,7 +96,7 @@ if(isset($_POST['btn-save'])) {
                             <p class="green">You have 4 pending tasks</p>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.php#">
                                 <div class="task-info">
                                     <div class="desc">DashGum Admin Panel</div>
                                     <div class="percent">40%</div>
@@ -82,7 +109,7 @@ if(isset($_POST['btn-save'])) {
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.php#">
                                 <div class="task-info">
                                     <div class="desc">Database Update</div>
                                     <div class="percent">60%</div>
@@ -95,7 +122,7 @@ if(isset($_POST['btn-save'])) {
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.php#">
                                 <div class="task-info">
                                     <div class="desc">Product Development</div>
                                     <div class="percent">80%</div>
@@ -108,7 +135,7 @@ if(isset($_POST['btn-save'])) {
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.php#">
                                 <div class="task-info">
                                     <div class="desc">Payments Sent</div>
                                     <div class="percent">70%</div>
@@ -128,7 +155,7 @@ if(isset($_POST['btn-save'])) {
                 <!-- settings end -->
                 <!-- inbox dropdown start-->
                 <li id="header_inbox_bar" class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
                         <i class="fa fa-envelope-o"></i>
                         <span class="badge bg-theme">5</span>
                     </a>
@@ -138,7 +165,7 @@ if(isset($_POST['btn-save'])) {
                             <p class="green">You have 5 new messages</p>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.php#">
                                 <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Zac Snider</span>
@@ -150,7 +177,7 @@ if(isset($_POST['btn-save'])) {
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.php#">
                                 <span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Divya Manian</span>
@@ -162,7 +189,7 @@ if(isset($_POST['btn-save'])) {
                          </a>
                      </li>
                      <li>
-                        <a href="index.html#">
+                        <a href="index.php#">
                             <span class="photo"><img alt="avatar" src="assets/img/ui-danro.jpg"></span>
                             <span class="subject">
                                 <span class="from">Dan Rogers</span>
@@ -174,7 +201,7 @@ if(isset($_POST['btn-save'])) {
                         </a>
                     </li>
                     <li>
-                        <a href="index.html#">
+                        <a href="index.php#">
                             <span class="photo"><img alt="avatar" src="assets/img/ui-sherman.jpg"></span>
                             <span class="subject">
                                 <span class="from">Dj Sherman</span>
@@ -186,7 +213,7 @@ if(isset($_POST['btn-save'])) {
                         </a>
                     </li>
                     <li>
-                        <a href="index.html#">See all messages</a>
+                        <a href="index.php#">See all messages</a>
                     </li>
                 </ul>
             </li>
@@ -211,21 +238,33 @@ if(isset($_POST['btn-save'])) {
       <section id="main-content-pertanyaan">
           <section class="wrapper">
             <h3><i class="fa fa-angle-right"></i> Pertanyaan</h3>
-
+            <?php if($success){ ?>
+                <div class='alert alert-success text-center'>
+                    <h4>Jawaban berhasil disimpan !</h4>
+                </div>
+            <?php } ?>
             <form method="post">
             <div class="row mt mb">
+                <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
                 <!-- Pertanyaan -->
                 <?php  
                 /**************************************
                 * Get data soal.
                 ***************************************/
-                $db->sql("SELECT id FROM ".$data['table']);
+                $db = new Database();
+                $db->connect();
+
+                $db->select($data['table'], 'id');
 
                 $pages = new Pagination($data['perpage'],'hal');
                 $pages->set_total($db->numRows()); // pass number of rows to use on pagination
 
-                $db->sql("SELECT * FROM ".$data['table']." ".$pages->get_limit() );
+                // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
+                $db->select($data['table'], '*', '', null, '', $pages->get_limit());
                 $res = $db->getResult();
+
+                // echo "<pre>";
+                // print_r($res); exit();
 
                 $i = 1;
                 foreach($res as $pertanyaan){
@@ -235,7 +274,7 @@ if(isset($_POST['btn-save'])) {
                         <div class="panel-heading">
                             <div class="pull-left">
                                 <h5 class="pertanyaan">
-                                  <i class="fa fa-tasks"></i> <?php echo $pertanyaan['soal']; ?>
+                                  <i class="fa fa-tasks"></i>  <?php echo $pertanyaan['soal']; ?>
                                 </h5>
                             </div>
                             <br>
@@ -256,7 +295,7 @@ if(isset($_POST['btn-save'])) {
                                     <li class="list-primary">
                                         <i class=" fa fa-ellipsis-v"></i>
                                         <div class="task-checkbox">
-                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_a">
+                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_b">
                                         </div>
                                         <div class="task-title">
                                           <span class="task-title-sp"><?php echo $pertanyaan['jawaban_b']; ?></span>
@@ -266,7 +305,7 @@ if(isset($_POST['btn-save'])) {
                                     <li class="list-primary">
                                         <i class=" fa fa-ellipsis-v"></i>
                                         <div class="task-checkbox">
-                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_a">
+                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_c">
                                         </div>
                                         <div class="task-title">
                                           <span class="task-title-sp"><?php echo $pertanyaan['jawaban_c']; ?></span>
@@ -276,7 +315,7 @@ if(isset($_POST['btn-save'])) {
                                     <li class="list-primary">
                                         <i class=" fa fa-ellipsis-v"></i>
                                         <div class="task-checkbox">
-                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_a">
+                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_d">
                                         </div>
                                         <div class="task-title">
                                           <span class="task-title-sp"><?php echo $pertanyaan['jawaban_d']; ?></span>
@@ -290,10 +329,12 @@ if(isset($_POST['btn-save'])) {
                 </div><!--/col-md-6  -->
                 <?php } ?>
             </div><!-- /row pertanyaan-->
-            <div class="row">
-                <div class="container">
-                    <button type="submit" class="btn btn-primary" name="btn-save">Submit</button>
-                </div>
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <div class="form-panel panel-submit">
+                      <button type="submit" class="btn btn-primary btn-lg" name="btn-save">Submit</button>
+                    </div><!-- /form-panel -->
+                </div><!-- /col-lg-12 -->
             </div>
             </form>
 
@@ -304,8 +345,8 @@ if(isset($_POST['btn-save'])) {
 <!--footer start-->
 <footer class="site-footer">
   <div class="text-center">
-      2014 - Alvarez.is
-      <a href="todo_list.html#" class="go-top">
+    Aplikasi Bank Soal
+      <a href="#" class="go-top">
           <i class="fa fa-angle-up"></i>
       </a>
   </div>
@@ -313,9 +354,14 @@ if(isset($_POST['btn-save'])) {
 <!--footer end-->
 </section>
 
-<!--script for pertanyaan -->
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
-    // $('.task-checkbox').
+    $('.list-primary').click(function(){
+        $(this).find('.jawaban').attr('checked', 'checked');
+    });
+    $('.jawaban').checked()
 </script>
 
 

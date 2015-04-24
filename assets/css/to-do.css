@@ -95,6 +95,9 @@
   margin-bottom:0 !important;
 }
 
+.tasks-widget .task-list li {
+	cursor: pointer;
+}
 
 @media only screen and (max-width: 320px) {
 

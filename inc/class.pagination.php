@@ -84,7 +84,7 @@ class Pagination{
 	 * @return string
 	*/
 	public function get_limit(){
-        	return "LIMIT ".$this->get_start().",$this->_perPage";
+        	return " ".$this->get_start().",$this->_perPage";
         }
         /**
          * page_links

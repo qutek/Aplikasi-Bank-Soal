@@ -2260,3 +2260,9 @@ th.action {
 h5.pertanyaan {
     line-height: 20px;
 }
+.task-title span.badge-dipilih {
+    display: none;
+}
+.form-panel.panel-submit {
+    margin: 5px;
+}
