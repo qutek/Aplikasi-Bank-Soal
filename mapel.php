@@ -6,9 +6,9 @@ include('header.php');
 
 // change it here
 $data = array(
-    'name' => 'Soal',
-    'base_file' => 'soal.php',
-    'table' => 'soal',
+    'name' => 'Pelajaran',
+    'base_file' => 'mapel.php',
+    'table' => 'mapel',
     'perpage' => '10',
     );
 
@@ -31,34 +31,28 @@ $db->connect();
                     ?>
 
                     <section class="wrapper">
-                    <h3><i class="fa fa-puzzle-piece"></i> Tambah <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-mapel"></i> Tambah <?php echo $data['name']; ?></h3>
                         <div class="row">
 
                               <div class="col-md-12">
 
                               <?php
 
-                                if(isset($_POST['btn-save']) && isset($_POST['mapel_id'])) {
+                                if(isset($_POST['btn-save'])) {
 
-                                    $soal = $db->escapeString($_POST['soal']); // Escape any input before insert
-                                    $mapel_id = $db->escapeString($_POST['mapel_id']);
-                                    $jawaban_a = $db->escapeString($_POST['jawaban_a']);
-                                    $jawaban_b = $db->escapeString($_POST['jawaban_b']);
-                                    $jawaban_c = $db->escapeString($_POST['jawaban_c']);
-                                    $jawaban_d = $db->escapeString($_POST['jawaban_d']);
-                                    $jawaban_benar = $db->escapeString($_POST['jawaban_benar']);
-
+                                    $mapel = $db->escapeString($_POST['mapel']); // Escape any input before insert
+                            
                                     // simple validation
-                                    if(empty($mapel_id) || empty($soal) || empty($jawaban_a) || empty($jawaban_b) || empty($jawaban_c) || empty($jawaban_d) ){ ?>
+                                    if(empty($mapel)){ ?>
                                         <div class="alert alert-warning">
                                             Mohon lengkapi form !
                                         </div>
                                     <?php } else {
 
-                                        $db->insert($data['table'], array('soal'=>$soal, 'mapel_id'=>$mapel_id, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar));  // Table name, column names and respective values
+                                        $db->insert($data['table'], array('mapel'=>$mapel));  // Table name, column names and respective values
                                         $res = $db->getResult();  
 
-                                        // display notification if success
+                                        // display notification if have submited form
                                         if (isset($res[0]) && is_integer($res[0])) {
                                             ?>
                                             <div class="alert alert-info">
@@ -83,43 +77,10 @@ $db->connect();
                                     <form class="form-add" method='post'>
          
                                         <table class='table table-bordered'>
-                                            <input type="hidden" name="mapel_id" value="<?php echo $_GET['id']; ?>">
-                                            <tr>
-                                                <td>Soal</td>
-                                                <td><input type='text' name='soal' class='form-control' required></td>
-                                            </tr>
                                      
                                             <tr>
-                                                <td>Jawaban A</td>
-                                                <td><input type='text' name='jawaban_a' class='form-control' required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban B</td>
-                                                <td><input type='text' name='jawaban_b' class='form-control' required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban C</td>
-                                                <td><input type='text' name='jawaban_c' class='form-control' required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban D</td>
-                                                <td><input type='text' name='jawaban_d' class='form-control' required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Level</td>
-                                                <td>
-                                                    <select class="form-control" name="level" required>
-                                                        <option>Silahkan Pilih Level</option>
-                                                        <option value="a">Jawaban A</option>
-                                                        <option value="b">Jawaban B</option>
-                                                        <option value="c">Jawaban C</option>
-                                                        <option value="d">Jawaban D</option>
-                                                    </select>
-                                                </td>
+                                                <td>Mata Pelajaran</td>
+                                                <td><input type='text' name='mapel' class='form-control' required></td>
                                             </tr>
                                      
                                             <tr>
@@ -148,7 +109,7 @@ $db->connect();
 
                     ?>
                     <section class="wrapper">
-                    <h3><i class="fa fa-puzzle-piece"></i> Edit <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-mapel"></i> Edit <?php echo $data['name']; ?></h3>
                         <div class="row">
                               <div class="col-md-12">
 
@@ -156,20 +117,18 @@ $db->connect();
 
                                 if(isset($_POST['btn-update'])) {
                                     $id = $_GET['id'];
-                                    $soal = $db->escapeString($_POST['soal']); // Escape any input before insert
-                                    $jawaban_a = $db->escapeString($_POST['jawaban_a']);
-                                    $jawaban_b = $db->escapeString($_POST['jawaban_b']);
-                                    $jawaban_c = $db->escapeString($_POST['jawaban_c']);
-                                    $jawaban_d = $db->escapeString($_POST['jawaban_d']);
-                                    $jawaban_benar = $db->escapeString($_POST['jawaban_benar']);
+                                    $mapel = $db->escapeString($_POST['mapel']); // Escape any input before insert
+                                    
 
-                                    if(empty($soal) || empty($jawaban_a) || empty($jawaban_b) || empty($jawaban_c) || empty($jawaban_d) ){ ?>
+                                    if(empty($mapel)){ ?>
                                         <div class="alert alert-warning">
                                             Mohon lengkapi form !
                                         </div>
                                      <?php } else {   
 
-                                        $params = array('soal'=>$soal, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar);
+                                        
+                                        $params = array('mapel' => $mapel);
+                                        
                                         $db->update($data['table'], $params, "id='".$id."'");
                                         $success = $db->getResult();
 
@@ -202,41 +161,8 @@ $db->connect();
                                         <table class='table table-bordered'>
          
                                             <tr>
-                                                <td>Soal</td>
-                                                <td><input type='text' name='soal' class='form-control' value="<?php echo $res[0]['soal']; ?>" required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban A</td>
-                                                <td><input type='text' name='jawaban_a' class='form-control' value="<?php echo $res[0]['jawaban_a']; ?>" required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban B</td>
-                                                <td><input type='text' name='jawaban_b' class='form-control' value="<?php echo $res[0]['jawaban_b']; ?>" required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban C</td>
-                                                <td><input type='text' name='jawaban_c' class='form-control' value="<?php echo $res[0]['jawaban_c']; ?>" required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Jawaban D</td>
-                                                <td><input type='text' name='jawaban_d' class='form-control' value="<?php echo $res[0]['jawaban_d']; ?>" required></td>
-                                            </tr>
-                                     
-                                            <tr>
-                                                <td>Level</td>
-                                                <td>
-                                                    <select class="form-control" name="jawaban_benar" required>
-                                                        <option>Pilih Jawaban Benar</option>
-                                                        <option value="a" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_a'); ?>>Jawaban A</option>
-                                                        <option value="b" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_b'); ?>>Jawaban B</option>
-                                                        <option value="c" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_c'); ?>>Jawaban C</option>
-                                                        <option value="d" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_d'); ?>>Jawaban D</option>
-                                                    </select>
-                                                </td>
+                                                <td>Mata Pelajaran</td>
+                                                <td><input type='text' name='mapel' class='form-control' value="<?php echo $res[0]['mapel']; ?>" required></td>
                                             </tr>
                                      
                                             <tr>
@@ -269,7 +195,7 @@ $db->connect();
                     
                     ?>
                     <section class="wrapper">
-                    <h3><i class="fa fa-puzzle-piece"></i> Edit <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-mapel"></i> Edit <?php echo $data['name']; ?></h3>
                         <div class="row">
                             <div class="col-md-12">
 
@@ -310,14 +236,14 @@ $db->connect();
                                      ?>
                                      <table class='table table-bordered'>
                                          <tr>
-                                             <th>Soal</th>
+                                             <th>Mata Pelajaran</th>
                                          </tr>
                                          <tr>
                                              <?php
                                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
                                                 $res = $db->getResult();
                                              ?>
-                                             <td><?php echo $res[0]['soal']; ?></td>
+                                             <td><?php echo $res[0]['mapel']; ?></td>
                                          </tr>
                                      </table>
                                      <?php
@@ -361,76 +287,33 @@ $db->connect();
                     $pages = new Pagination($data['perpage'],'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
 
-                    if(isset($_POST['kelas']) && $_POST['kelas'] != ''){
-                        $filter_kelas = true;
-                        $f_kelas_q = 'kelas_id='.$_POST['kelas'];
-                        
-                    }
-                    if(isset($_POST['mapel']) && $_POST['mapel'] != ''){
-                        $filter_mapel = true;
-                        $f_mapel_q = 'mapel_id='.$_POST['mapel'];
-
-                    }
-
-                    $penggabung = ($filter_kelas && $filter_mapel) ? ' AND ' : '';
-
-                    $where = $f_kelas_q.$penggabung.$f_mapel_q;
-
-                    echo $where;
-
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
-                    $db->select($data['table'], '*', '', $where, '', $pages->get_limit() );
+                    $db->select($data['table'], '*', '', '', '', $pages->get_limit() );
                     $res = $db->getResult();
                     ?>
                     <section class="wrapper">
-                        <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; ?></h3>
+                        <h3><i class="fa fa-mapel"></i> Daftar <?php echo $data['name']; ?></h3>
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">
-                                    <form class="form-inline" role="form" method="post">
-                                        <select class="form-control" name="kelas">
-                                            <option value="">Pilih Kelas</option>
-                                            <?php  
-                                            $db->select('kelas');
-                                            $kelas = $db->getResult();
-                                            foreach ($kelas as $key => $kelas) { ?>
-                                                <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <select class="form-control" name="mapel">
-                                            <option value="">Mapel</option>
-                                            <?php  
-                                            $db->select('mapel');
-                                            $mapel = $db->getResult();
-                                            foreach ($mapel as $key => $mapel) { ?>
-                                                <option value="<?php echo $mapel['id']; ?>"><?php echo $mapel['mapel']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <button type="submit" class="btn btn-theme04">Pilih</button>
-                                    </form>
-                                <!-- <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a> -->
+                                <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a>
                                 <hr>
                                 <table class='table table-striped table-advance table-hover'>
                                     <tr>
                                        <th class="no">No.</th>
-                                       <th>Soal</th>
-                                       <th>Mapel</th>
+                                       <th>Mata Pelajaran</th>
                                        <th class="action" align="center">Actions</th>
                                     </tr>
                                     <?php 
                                     $i = 1;
-                                    foreach($res as $user){ 
-                                        $db->select('mapel', 'mapel', '', 'id='.$user['mapel_id']);
-                                        $mapels = $db->getResult();
-                                        $mapel = (null != $user['mapel_id']) ? $mapels[0]['mapel'] : '';
-                                        ?>
+                                    foreach($res as $mapel){ ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
-                                        <td><?php echo $user['soal']; ?></td>
-                                        <td><?php echo $mapel; ?></td>
+                                        <td><?php echo $mapel['mapel']; ?>
+                                        </td>                                        
                                         <td>
-                                            <a href="<?php echo $data['base_file']; ?>?act=edit&id=<?php echo $user['id']; ?>" title="Edit <?php echo $data['name']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
-                                            <a href="<?php echo $data['base_file']; ?>?act=hapus&id=<?php echo $user['id']; ?>" title="Hapus <?php echo $data['name']; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
+                                            <a href="<?php echo $data['base_file']; ?>?act=edit&id=<?php echo $mapel['id']; ?>" title="Edit <?php echo $data['name']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                                            <a href="<?php echo $data['base_file']; ?>?act=hapus&id=<?php echo $mapel['id']; ?>" title="Hapus <?php echo $data['name']; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>
                                         </td>
                                     </tr>
                                     <?php 

@@ -12,13 +12,16 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css"> -->
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
     <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
     
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
+    
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/jquery-1.8.3.min.js"></script>
 
     <script src="assets/js/chart-master/Chart.js"></script>
     
@@ -200,13 +203,33 @@
               <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
              <h5 class="centered">Bank Soal</h5>
               <!-- sidebar menu start-->
-              <?php  
+              <?php 
 
                   $menu = array(
                     'dashboard' => array(
                         'icon'  =>  'fa-dashboard',
                         'title' =>  'Dashboard',
                         'link'  =>  'dashboard.php'
+                        ),
+                    
+                    'kelas' => array(
+                        'icon'  =>  'fa-institution',
+                        'title' =>  'Kelas',
+                        'link'  =>  '#'
+                        ),
+
+                    'daftar_kelas' => array(
+                        'icon'  =>  'fa-user',
+                        'title' =>  'Daftar Kelas',
+                        'link'  =>  'kelas.php',
+                        'parent' => 'kelas'
+                        ),
+
+                    'tambah_kelas' => array(
+                        'icon'  =>  'fa-plus',
+                        'title' =>  'Tambah Kelas',
+                        'link'  =>  'kelas.php?act=tambah',
+                        'parent' => 'kelas'
                         ),
                     
                     'user' => array(
@@ -248,13 +271,45 @@
                         'parent' => 'soal'
                         ),
 
-                    'tambah_soal' => array(
+                    // 'tambah_soal' => array(
+                    //     'icon'  =>  'fa-plus',
+                    //     'title' =>  'Tambah Soal',
+                    //     'link'  =>  'soal.php?act=tambah',
+                    //     'parent' => 'soal'
+                    //     ),
+                    
+                    'mapel' => array(
+                        'icon'  =>  'fa-puzzle-piece',
+                        'title' =>  'Mata Pelajaran',
+                        'link'  =>  '#'
+                        ),
+
+                    'daftar_mapel' => array(
+                        'icon'  =>  'fa-puzzle-piece',
+                        'title' =>  'Daftar Pelajaran',
+                        'link'  =>  'mapel.php',
+                        'parent' => 'mapel'
+                        ),
+
+                    'tambah_mapel' => array(
                         'icon'  =>  'fa-plus',
-                        'title' =>  'Tambah Soal',
-                        'link'  =>  'soal.php?act=tambah',
-                        'parent' => 'soal'
+                        'title' =>  'Tambah Pelajaran',
+                        'link'  =>  'mapel.php?act=tambah',
+                        'parent' => 'mapel'
                         ),
                     );
+
+                  // pass mapel to menu
+                  $mapel = get_mapel();
+
+                  foreach ($mapel as $key => $mapel) {
+                      $menu['tambah'.$mapel['id']] = array(
+                        'icon'  =>  'fa-plus',
+                        'title' =>  $mapel['mapel'],
+                        'link'  =>  'soal.php?act=tambah&id='.$mapel['id'],
+                        'parent' => 'soal'
+                      );
+                  }
 
                   createMenu($menu, array('menu_class' => 'sidebar-menu', 'menu_id' => 'nav-accordion') );
 

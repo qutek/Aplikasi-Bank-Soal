@@ -109,6 +109,6 @@
 </html>
 <?php 
 } else { 
-    include('pertanyaan.php');
+    include('dashboard-user.php');
 }
 ?>

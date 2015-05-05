@@ -107,4 +107,15 @@ function is_can_access($levels){
   return true;
 }
 
+function get_mapel(){
+  
+  $db = new Database();
+  $db->connect();
+
+  $db->select('mapel');
+  $res = $db->getResult();
+
+  return $res;
+}
+
 ?>
