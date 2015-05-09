@@ -356,38 +356,42 @@ $db->connect();
                     /**************************************
                     * Default page view goes here, display the data.
                     ***************************************/
-                    $db->select($data['table']);
 
-                    $pages = new Pagination($data['perpage'],'hal');
-                    $pages->set_total($db->numRows()); // pass number of rows to use on pagination
+                    $where = '';
+                    if(!empty($_POST['kelas']) || !empty($_POST['mapel'])){
 
-                    if(isset($_POST['kelas']) && $_POST['kelas'] != ''){
-                        $filter_kelas = true;
-                        $f_kelas_q = 'kelas_id='.$_POST['kelas'];
+                        if (!empty($_POST['kelas'])){
+                            $wh_kelas = 'kelas_id='.$db->escapeString($_POST['kelas']);
+                        }
+
+                        if (!empty($_POST['mapel'])){
+                            $wh_mapel = 'mapel_id='.$db->escapeString($_POST['mapel']);
+                        }
+
+                        $separator = (!empty($_POST['kelas']) && !empty($_POST['mapel'])) ? ' AND ' : '';
+
+                        $where .= $wh_kelas.$separator.$wh_mapel;
                         
                     }
-                    if(isset($_POST['mapel']) && $_POST['mapel'] != ''){
-                        $filter_mapel = true;
-                        $f_mapel_q = 'mapel_id='.$_POST['mapel'];
-
-                    }
-
-                    $penggabung = ($filter_kelas && $filter_mapel) ? ' AND ' : '';
-
-                    $where = $f_kelas_q.$penggabung.$f_mapel_q;
-
-                    echo $where;
 
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
+                    $db->select($data['table'],'id', '', $where);
+                    $pages = new Pagination($data['perpage'],'hal');
+                    $pages->set_total($db->numRows()); // pass number of rows to use on pagination
                     $db->select($data['table'], '*', '', $where, '', $pages->get_limit() );
                     $res = $db->getResult();
+                    // $res = $db->getSql();
+
+                    // echo "<pre>";
+                    // print_r($res);
+                    // echo "</pre>";
                     ?>
                     <section class="wrapper">
                         <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; ?></h3>
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">
-                                    <form class="form-inline" role="form" method="post">
+                                    <form class="form-inline" role="form" method="post" action="">
                                         <select class="form-control" name="kelas">
                                             <option value="">Pilih Kelas</option>
                                             <?php  

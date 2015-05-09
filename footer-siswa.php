@@ -17,6 +17,8 @@
 <script type="text/javascript">
     $('.list-primary').click(function(){
         $(this).find('.jawaban').attr('checked', 'checked');
+        $(this).closest('.task-list').find('.badge-dipilih').hide();
+        $(this).find('.badge-dipilih').show();
     });
     // $('.jawaban').each(function( index, elem ) {
     //   if($(elem).attr("checked", "checked")){
