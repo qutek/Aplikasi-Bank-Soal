@@ -1,5 +1,15 @@
 <?php 
 session_start(); 
+
+if (isset($_SESSION['level'])){
+	if ($_SESSION['level'] == 3){
+		// if siswa redirect to their dashboard
+		header('location:dashboard-siswa.php');
+	} else {
+		header('location:dashboard.php');
+	}
+}
+
 if(isset($_POST['btn-login'])){
 	// safety first :)
 	$user = mysql_real_escape_string(htmlentities($_POST['username']));
@@ -21,7 +31,12 @@ if(isset($_POST['btn-login'])){
 		$_SESSION['nama'] = $res[0]['nama'];
 		$_SESSION['level'] = $res[0]['level'];
 
-		header('location:dashboard.php');
+		if ($res[0]['level'] == 3){
+			// if siswa redirect to their dashboard
+			header('location:dashboard-siswa.php');
+		} else {
+			header('location:dashboard.php');
+		}
 
 		// echo '<script language="javascript">alert("Anda berhasil Login '.$_SESSION['nama'].'!); document.location="dashboard.php";</script>';
 	}

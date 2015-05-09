@@ -2,5 +2,5 @@
 session_start();
 session_destroy();
  
-echo '<script language="javascript">alert("Anda berhasil Logout!"); document.location="login.php";</script>';
+echo '<script language="javascript">alert("Anda berhasil Logout!"); document.location="index.php";</script>';
 ?>

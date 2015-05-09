@@ -1,6 +1,5 @@
 <?php
 include('inc/class.db.php');
-echo "string"; exit();
 is_can_access('1','2');
 
 include('header.php');
