@@ -1,6 +1,6 @@
 <?php
 include('inc/class.db.php');
-is_can_access('1','2');
+is_can_access(array('1','2'));
 
 include('header.php');
 

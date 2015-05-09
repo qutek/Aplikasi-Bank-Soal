@@ -1,6 +1,6 @@
 <?php
 include('inc/class.db.php');
-is_can_access('1','2');
+is_can_access(array('1','2'));
 
 include('header.php');
 
@@ -44,11 +44,6 @@ $db->connect();
                                     $nama = $db->escapeString($_POST['nama']);
                                     $password = $db->escapeString($_POST['password']);
                                     $level = $db->escapeString($_POST['level']);
-                                    if($level == '3'){
-                                        $kelas = $db->escapeString($_POST['kelas']);
-                                    }
-
-                                    $kelas = (!empty($kelas)) ? $kelas : '';
 
                                     // simple validation
                                     if(empty($username) || empty($nama) || empty($password) || empty($level) ){ ?>
@@ -57,7 +52,7 @@ $db->connect();
                                         </div>
                                     <?php } else {
 
-                                        $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'level' => $level, 'kelas_id' => $kelas));  // Table name, column names and respective values
+                                        $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'level' => $level));  // Table name, column names and respective values
                                         $res = $db->getResult();  
 
                                         // display notification if have submited form
@@ -108,22 +103,6 @@ $db->connect();
                                                         <option>Silahkan Pilih Level</option>
                                                         <option value="1">Administator</option>
                                                         <option value="2">Guru</option>
-                                                        <option value="3">Siswa</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                     
-                                            <tr id="kelas" class="hidden">
-                                                <td>Kelas</td>
-                                                <td>
-                                                    <select class="form-control" name="kelas" required>
-                                                        <option>Silahkan Pilih Kelas</option>
-                                                        <?php  
-                                                        $db->select('kelas');
-                                                        $kelas = $db->getResult();
-                                                        foreach ($kelas as $key => $kelas) { ?>
-                                                            <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
-                                                        <?php } ?>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -143,16 +122,6 @@ $db->connect();
                                   </div><! --/content-panel -->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
-                        <script type="text/javascript">
-                        $('#level').on('change', function(){
-                            var val = $(this).val();
-                            if(val == 3){
-                                $('#kelas').toggleClass('hidden');
-                            } else {
-                                $('#kelas').addClass('hidden');
-                            }
-                        });
-                        </script>
                   </section>
                     <?php
                     break;
@@ -176,11 +145,6 @@ $db->connect();
                                     $nama = $db->escapeString($_POST['nama']);
                                     $password = $db->escapeString($_POST['password']);
                                     $level = $db->escapeString($_POST['level']);
-                                    if($level == '3'){
-                                        $kelas = $db->escapeString($_POST['kelas']);
-                                    }
-
-                                    $kelas = (!empty($kelas)) ? $kelas : '';
 
                                     if(empty($username) || empty($nama) || empty($level) ){ ?>
                                         <div class="alert alert-warning">
@@ -190,9 +154,9 @@ $db->connect();
 
                                         if(!empty($password)){
                                             // update password too
-                                            $params = array('username' => $username, 'nama' => $nama, 'password' => md5($password), 'level' => $level, 'kelas_id' => $kelas);
+                                            $params = array('username' => $username, 'nama' => $nama, 'password' => md5($password), 'level' => $level);
                                         } else {
-                                            $params = array('username' => $username, 'nama' => $nama, 'level' => $level, 'kelas_id' => $kelas);
+                                            $params = array('username' => $username, 'nama' => $nama, 'level' => $level);
                                         }
                                         $db->update($data['table'], $params, "id='".$id."'");
                                         $success = $db->getResult();
@@ -247,24 +211,6 @@ $db->connect();
                                                         <option>Silahkan Pilih Level</option>
                                                         <option value="1" <?php check_selected($res[0]['level'], 1); ?> >Administator</option>
                                                         <option value="2" <?php check_selected($res[0]['level'], 2); ?>>Guru</option>
-                                                        <option value="3" <?php check_selected($res[0]['level'], 3); ?>>Siswa</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <?php  
-                                            $is_hide = ($res[0]['level'] != 3) ? 'hidden' : '';
-                                            ?>
-                                            <tr id="kelas" class="<?php echo $is_hide; ?>">
-                                                <td>Kelas</td>
-                                                <td>
-                                                    <select class="form-control" name="kelas" required>
-                                                        <option>Silahkan Pilih Kelas</option>
-                                                        <?php  
-                                                        $db->select('kelas');
-                                                        $kelas = $db->getResult();
-                                                        foreach ($kelas as $key => $kelas) { ?>
-                                                            <option value="<?php echo $kelas['id']; ?>" <?php check_selected($res[0]['kelas_id'], $kelas['id']); ?>><?php echo $kelas['kelas']; ?></option>
-                                                        <?php } ?>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -285,16 +231,6 @@ $db->connect();
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                     </section>
-                    <script type="text/javascript">
-                    $('#level').on('change', function(){
-                        var val = $(this).val();
-                        if(val == 3){
-                            $('#kelas').toggleClass('hidden');
-                        } else {
-                            $('#kelas').addClass('hidden');
-                        }
-                    });
-                    </script>
                     <?php
 
 
@@ -309,7 +245,7 @@ $db->connect();
                     
                     ?>
                     <section class="wrapper">
-                    <h3><i class="fa fa-user"></i> Edit <?php echo $data['name']; ?></h3>
+                    <h3><i class="fa fa-user"></i> Delete <?php echo $data['name']; ?></h3>
                         <div class="row">
                             <div class="col-md-12">
 
@@ -402,13 +338,13 @@ $db->connect();
                     /**************************************
                     * Default page view goes here, display the data.
                     ***************************************/
-                    $db->select($data['table']);
+                    $db->select($data['table'], '*', '', 'level!=3');
 
                     $pages = new Pagination($data['perpage'],'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
 
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
-                    $db->select($data['table'], '*', '', '', '', $pages->get_limit() );
+                    $db->select($data['table'], '*', '', 'level!=3', '', $pages->get_limit() );
                     $res = $db->getResult();
                     ?>
                     <section class="wrapper">
@@ -425,7 +361,6 @@ $db->connect();
                                        <th>Nama</th>
                                        <th>Password</th>
                                        <th>Level</th>
-                                       <th>Kelas</th>
                                        <th class="action" align="center">Actions</th>
                                     </tr>
                                     <?php 
@@ -437,12 +372,6 @@ $db->connect();
                                         <td><?php echo $user['nama']; ?></td>
                                         <td>*******</td>
                                         <td><?php echo get_level_name($user['level']); ?></td>
-                                        <td><?php 
-                                            $db->select('kelas', '*','','id="'.$user['kelas_id'].'"');
-                                            $reslt = $db->getResult();
-                                            echo $reslt[0]['kelas']; 
-                                            ?>
-                                        </td>
                                         <td>
                                             <a href="<?php echo $data['base_file']; ?>?act=edit&id=<?php echo $user['id']; ?>" title="Edit <?php echo $data['name']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                                             <a href="<?php echo $data['base_file']; ?>?act=hapus&id=<?php echo $user['id']; ?>" title="Hapus <?php echo $data['name']; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></a>

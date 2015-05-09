@@ -96,6 +96,8 @@ function is_can_access($levels){
     }
   }
 
+  // echo (is_array($levels)) ? 'array' : 'gak'; exit();
+
 
   // if user can't access this page, redirect please
   if(!$can_access){

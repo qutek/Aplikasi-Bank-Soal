@@ -251,6 +251,26 @@
                         'link'  =>  'user.php?act=tambah',
                         'parent' => 'user'
                         ),
+                    
+                    'siswa' => array(
+                        'icon'  =>  'fa-users',
+                        'title' =>  'Siswa',
+                        'link'  =>  '#'
+                        ),
+
+                    'daftar_siswa' => array(
+                        'icon'  =>  'fa-user',
+                        'title' =>  'Daftar Siswa',
+                        'link'  =>  'siswa.php',
+                        'parent' => 'siswa'
+                        ),
+
+                    'tambah_siswa' => array(
+                        'icon'  =>  'fa-plus',
+                        'title' =>  'Tambah Siswa',
+                        'link'  =>  'siswa.php?act=tambah',
+                        'parent' => 'siswa'
+                        ),
 
                     'pertanyaan' => array(
                         'icon'  =>  'fa-mortar-board',
