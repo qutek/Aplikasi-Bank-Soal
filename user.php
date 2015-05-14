@@ -100,7 +100,7 @@ $db->connect();
                                                 <td>Level</td>
                                                 <td>
                                                     <select id="level" class="form-control" name="level" required>
-                                                        <option>Silahkan Pilih Level</option>
+                                                        <option value="">Silahkan Pilih Level</option>
                                                         <option value="1">Administator</option>
                                                         <option value="2">Guru</option>
                                                     </select>
@@ -208,7 +208,7 @@ $db->connect();
                                                 <td>Level</td>
                                                 <td>
                                                     <select id="level" class="form-control" name="level" required>
-                                                        <option>Silahkan Pilih Level</option>
+                                                        <option value="">Silahkan Pilih Level</option>
                                                         <option value="1" <?php check_selected($res[0]['level'], 1); ?> >Administator</option>
                                                         <option value="2" <?php check_selected($res[0]['level'], 2); ?>>Guru</option>
                                                     </select>

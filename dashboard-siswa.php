@@ -2,6 +2,8 @@
 include('inc/class.db.php');
 is_can_access(array('1','2','3'));
 
+$kelas = (isset($_SESSION['kelas'])) ? $_SESSION['kelas'] : false;
+
 include('header-siswa.php');
 $db = new Database();
 $db->connect();
@@ -23,7 +25,8 @@ $db->connect();
                     <div class="row mtbox">
 
                         <?php  
-                        $db->select('mapel');
+                        $filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas : '';
+                        $db->select('mapel', 'mapel.id, mapel.mapel', 'soal', 'soal.mapel_id = mapel.id'.$filter);
                         $mapel = $db->getResult();
 
                         $i = 0;

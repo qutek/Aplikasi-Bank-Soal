@@ -102,7 +102,7 @@ $db->connect();
                                                 <td>Kelas</td>
                                                 <td>
                                                     <select class="form-control" name="kelas" required>
-                                                        <option>Silahkan Pilih Kelas</option>
+                                                        <option value="">Silahkan Pilih Kelas</option>
                                                         <?php  
                                                         $db->select('kelas');
                                                         $kelas = $db->getResult();
@@ -215,7 +215,7 @@ $db->connect();
                                                 <td>Kelas</td>
                                                 <td>
                                                     <select class="form-control" name="kelas" required>
-                                                        <option>Silahkan Pilih Kelas</option>
+                                                        <option value="">Silahkan Pilih Kelas</option>
                                                         <?php  
                                                         $db->select('kelas');
                                                         $kelas = $db->getResult();

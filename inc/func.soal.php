@@ -131,4 +131,46 @@ function get_kelas(){
   return $res;
 }
 
+function get_kelas_name($id=''){
+  
+  $db = new Database();
+  $db->connect();
+
+  $res = '';
+  if($id != ''){
+    $db->select('kelas', 'kelas', '', 'id='.$id);
+    $result = $db->getResult();
+    $res = $result[0]['kelas'];
+  }
+  return $res;
+}
+
+function get_mapel_name($id=''){
+  
+  $db = new Database();
+  $db->connect();
+
+  $res = '';
+  if($id != ''){
+    $db->select('mapel', 'mapel', '', 'id='.$id);
+    $result = $db->getResult();
+    $res = $result[0]['mapel'];
+  }
+  return $res;
+}
+
+function filter_by_value($array, $index, $value){ 
+    if(is_array($array) && count($array)>0)  
+    { 
+        foreach(array_keys($array) as $key){ 
+            $temp[$key] = $array[$key][$index]; 
+             
+            if ($temp[$key] == $value){ 
+                $newarray[$key] = $array[$key]; 
+            } 
+        } 
+      } 
+  return $newarray; 
+} 
+
 ?>

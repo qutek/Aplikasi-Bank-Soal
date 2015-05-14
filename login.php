@@ -32,7 +32,8 @@ if(isset($_POST['btn-login'])){
 		$_SESSION['level'] = $res[0]['level'];
 
 		if ($res[0]['level'] == 3){
-			// if siswa redirect to their dashboard
+			// if siswa redirect to their dashboard and add session kelas
+			$_SESSION['kelas'] = $res[0]['kelas_id'];
 			header('location:dashboard-siswa.php');
 		} else {
 			header('location:dashboard.php');

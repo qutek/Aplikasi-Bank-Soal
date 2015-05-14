@@ -2,6 +2,9 @@
 include('inc/class.db.php');
 is_can_access(array('1','2', '3'));
 
+$kelas = (isset($_SESSION['kelas'])) ? $_SESSION['kelas'] : false;
+$filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas : '';
+
 // change it here
 $data = array(
     'name' => 'Pertanyaan',
@@ -61,8 +64,12 @@ include('header-siswa.php');
             $db = new Database();
             $db->connect();
 
-            $db->select('mapel', 'mapel', '', 'id='.$mapel_id);
+            $db->select('mapel', 'mapel', 'soal', 'soal.mapel_id='.$mapel_id.$filter);
             $mapels = $db->getResult();
+            if(empty($mapels)){
+            	echo '<script language="javascript">alert("Anda tdak diperkenankan mengakses halaman ini!"); document.location="dashboard-siswa.php";</script>';
+            }
+
             $mapel = (null != $mapel_id) ? $mapels[0]['mapel'] : '';
           	?>
             <h3><i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo $mapel; ?></h3>
@@ -80,10 +87,8 @@ include('header-siswa.php');
                 * Get data soal.
                 ***************************************/
 
-
-
                 // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
-                $db->select($data['table'], '*', '', 'mapel_id='.$mapel_id, 'RAND()', $data['perpage']);
+                $db->select($data['table'], '*', '', 'mapel_id='.$mapel_id.$filter, 'RAND()', $data['perpage']);
                 $res = $db->getResult();
 
                 if(!empty($res)){
