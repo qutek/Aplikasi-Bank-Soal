@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.23)
 # Database: dbsoal
-# Generation Time: 2015-04-24 02:39:39 +0000
+# Generation Time: 2015-05-14 15:43:08 +0000
 # ************************************************************
 
 
@@ -48,6 +48,57 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table kelas
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `kelas`;
+
+CREATE TABLE `kelas` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `kelas` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `kelas` WRITE;
+/*!40000 ALTER TABLE `kelas` DISABLE KEYS */;
+
+INSERT INTO `kelas` (`id`, `kelas`)
+VALUES
+	(2,'Satu'),
+	(3,'Dua');
+
+/*!40000 ALTER TABLE `kelas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table mapel
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mapel`;
+
+CREATE TABLE `mapel` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mapel` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `mapel` WRITE;
+/*!40000 ALTER TABLE `mapel` DISABLE KEYS */;
+
+INSERT INTO `mapel` (`id`, `mapel`)
+VALUES
+	(2,'Sejarah'),
+	(3,'Matematika'),
+	(4,'Anu'),
+	(5,'Biologi'),
+	(6,'dasdasdasd'),
+	(7,'dasdasfasfasfasf'),
+	(8,'fasfasgagag');
+
+/*!40000 ALTER TABLE `mapel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table soal
 # ------------------------------------------------------------
 
@@ -56,6 +107,8 @@ DROP TABLE IF EXISTS `soal`;
 CREATE TABLE `soal` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `soal` varchar(50) DEFAULT NULL,
+  `mapel_id` int(11) DEFAULT NULL,
+  `kelas_id` int(11) DEFAULT NULL,
   `jawaban_a` varchar(50) DEFAULT NULL,
   `jawaban_b` varchar(50) DEFAULT NULL,
   `jawaban_c` varchar(50) DEFAULT NULL,
@@ -67,14 +120,16 @@ CREATE TABLE `soal` (
 LOCK TABLES `soal` WRITE;
 /*!40000 ALTER TABLE `soal` DISABLE KEYS */;
 
-INSERT INTO `soal` (`id`, `soal`, `jawaban_a`, `jawaban_b`, `jawaban_c`, `jawaban_d`, `jawaban_benar`)
+INSERT INTO `soal` (`id`, `soal`, `mapel_id`, `kelas_id`, `jawaban_a`, `jawaban_b`, `jawaban_c`, `jawaban_d`, `jawaban_benar`)
 VALUES
-	(1,'Apakah 1','anu','iya','ga','ah','b'),
-	(3,'Apakah 2','anu','iya','ga','ah','b'),
-	(4,'Apakah 3','anu','iya','ga','ah','b'),
-	(5,'Apakah 4','anu','iya','ga','ah','b'),
-	(6,'Apakah 5','anu','iya','ga','ah','b'),
-	(7,'Apakah 6','anu','iya','ga','ah','b');
+	(4,'Apakah 3',NULL,NULL,'anu','iya','ga','ah','b'),
+	(5,'Apakah 4',NULL,NULL,'anu','iya','ga','ah','b'),
+	(6,'Apakah 5',NULL,NULL,'anu','iya','ga','ah','b'),
+	(7,'Apakah 6',NULL,NULL,'anu','iya','ga','ah','b'),
+	(9,'matik',3,3,'dsdxxx','dsds','dsd','dsd','a'),
+	(11,'soal sejarah',2,NULL,'fsdfsdf','fsdf','fsdf','fsdf',''),
+	(12,'vcxvxcv',4,NULL,'vxcvxcv','vxcv','xcvxcv','vxcvxcv',''),
+	(13,'dasdasd',5,2,'dasd','dasd','adsd','dasdasd','b');
 
 /*!40000 ALTER TABLE `soal` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -91,6 +146,7 @@ CREATE TABLE `users` (
   `nama` varchar(25) NOT NULL DEFAULT '',
   `password` varchar(50) NOT NULL DEFAULT '',
   `level` int(1) NOT NULL,
+  `kelas_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -98,12 +154,13 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `username`, `nama`, `password`, `level`)
+INSERT INTO `users` (`id`, `username`, `nama`, `password`, `level`, `kelas_id`)
 VALUES
-	(28,'snuqsdn','sdfsxx','fdsfsdf',1),
-	(30,'qutek','lafif Astsah','491442df5f88c6aa018e86dac21d3606',1),
-	(31,'anu','dasdasd','de022cab63f8457388abf2aa2fd3e96f',2),
-	(33,'qutek1','qutek 1','491442df5f88c6aa018e86dac21d3606',1);
+	(30,'qutek','lafif Astsah','491442df5f88c6aa018e86dac21d3606',1,NULL),
+	(31,'anu','dasdasd','de022cab63f8457388abf2aa2fd3e96f',2,NULL),
+	(33,'qutek1','qutek 1','491442df5f88c6aa018e86dac21d3606',1,NULL),
+	(35,'siswa','siswa kelas 1','bcd724d15cde8c47650fda962968f102',3,3),
+	(37,'sdadsad','dasdasd','0df01ae7dd51cec48fed56952f40842b',1,NULL);
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
