@@ -349,13 +349,22 @@ $db->connect();
                     /**************************************
                     * Default page view goes here, display the data.
                     ***************************************/
-                    $db->select($data['table'], '*', '', 'level=3');
+                    $where = 'level=3';
+                    if(!empty($_POST['kelas']) || !empty($_POST['mapel'])){
 
-                    $pages = new Pagination($data['perpage'],'hal');
-                    $pages->set_total($db->numRows()); // pass number of rows to use on pagination
+                        if (!empty($_POST['kelas'])){
+                            $wh_kelas = ' AND kelas_id='.$db->escapeString($_POST['kelas']);
+                        }
+
+                        $where .= $wh_kelas;
+                        
+                    }
 
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
-                    $db->select($data['table'], '*', '', 'level=3', '', $pages->get_limit() );
+                    $db->select($data['table'],'id', '', $where);
+                    $pages = new Pagination($data['perpage'],'hal');
+                    $pages->set_total($db->numRows()); // pass number of rows to use on pagination
+                    $db->select($data['table'], '*', '', $where, '', $pages->get_limit() );
                     $res = $db->getResult();
                     // echo $db->getSql();
                     ?>
@@ -364,8 +373,24 @@ $db->connect();
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">
-                                <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a>
-                                <hr>
+                                    <div class="action-button pull-right">
+                                        <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a>
+                                    </div>
+                                    <div class="action-button pull-left">
+                                        <form class="form-inline" role="form" method="post" action="">
+                                            <select class="form-control" name="kelas">
+                                                <option value="">Pilih Kelas</option>
+                                                <?php  
+                                                $db->select('kelas');
+                                                $kelas = $db->getResult();
+                                                foreach ($kelas as $key => $kelas) { ?>
+                                                    <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <button type="submit" class="btn btn-theme04">Tampilkan</button>
+                                        </form>
+                                    </div>
+                                    <hr>
                                 <table class='table table-striped table-advance table-hover'>
                                     <tr>
                                        <th class="no">No.</th>

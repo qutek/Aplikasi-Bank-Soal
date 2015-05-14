@@ -2242,7 +2242,10 @@ label {
 }
 
 /* Our custom */
-a.button-add {
+div.action-button.pull-left {
+    margin-right: 10px;
+}
+div.action-button.pull-right {
     margin-left: 10px;
 }
 .content-table {

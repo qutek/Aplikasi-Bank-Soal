@@ -38,10 +38,11 @@ $db->connect();
 
                               <?php
 
-                                if(isset($_POST['btn-save']) && isset($_POST['mapel_id'])) {
+                                if(isset($_POST['btn-save']) && !empty($_POST['mapel_id']) && !empty($_POST['kelas_id'])) {
 
                                     $soal = $db->escapeString($_POST['soal']); // Escape any input before insert
                                     $mapel_id = $db->escapeString($_POST['mapel_id']);
+                                    $kelas_id = $db->escapeString($_POST['kelas_id']);
                                     $jawaban_a = $db->escapeString($_POST['jawaban_a']);
                                     $jawaban_b = $db->escapeString($_POST['jawaban_b']);
                                     $jawaban_c = $db->escapeString($_POST['jawaban_c']);
@@ -55,7 +56,7 @@ $db->connect();
                                         </div>
                                     <?php } else {
 
-                                        $db->insert($data['table'], array('soal'=>$soal, 'mapel_id'=>$mapel_id, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar));  // Table name, column names and respective values
+                                        $db->insert($data['table'], array('soal'=>$soal, 'mapel_id'=>$mapel_id, 'kelas_id'=>$kelas_id, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar));  // Table name, column names and respective values
                                         $res = $db->getResult();  
 
                                         // display notification if success
@@ -83,7 +84,22 @@ $db->connect();
                                     <form class="form-add" method='post'>
          
                                         <table class='table table-bordered'>
-                                            <input type="hidden" name="mapel_id" value="<?php echo $_GET['id']; ?>">
+                                            <input type="hidden" name="kelas_id" value="<?php echo $_GET['cl_id']; ?>">
+                                            
+                                            <tr>
+                                                <td>Mata Pelajaran</td>
+                                                <td>
+                                                    <select class="form-control" name="mapel_id" required>
+                                                        <option>Pilih Mata Pelajaran</option>
+                                                        <?php 
+                                                        $mapel = get_mapel(); 
+                                                        foreach ($mapel as $key => $mapel) { ?>
+                                                        <option value="<?php echo $mapel['id']; ?>"><?php echo $mapel['mapel']; ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
                                             <tr>
                                                 <td>Soal</td>
                                                 <td><input type='text' name='soal' class='form-control' required></td>
@@ -110,10 +126,10 @@ $db->connect();
                                             </tr>
                                      
                                             <tr>
-                                                <td>Level</td>
+                                                <td>Jawaban Benar</td>
                                                 <td>
-                                                    <select class="form-control" name="level" required>
-                                                        <option>Silahkan Pilih Level</option>
+                                                    <select class="form-control" name="jawaban_benar" required>
+                                                        <option>Silahkan Pilih Jawaban Benar</option>
                                                         <option value="a">Jawaban A</option>
                                                         <option value="b">Jawaban B</option>
                                                         <option value="c">Jawaban C</option>
@@ -156,11 +172,14 @@ $db->connect();
 
                                 if(isset($_POST['btn-update'])) {
                                     $id = $_GET['id'];
+                                    $mapel_id = $db->escapeString($_POST['mapel_id']);
+                                    $kelas_id = $db->escapeString($_POST['kelas_id']);
                                     $soal = $db->escapeString($_POST['soal']); // Escape any input before insert
                                     $jawaban_a = $db->escapeString($_POST['jawaban_a']);
                                     $jawaban_b = $db->escapeString($_POST['jawaban_b']);
                                     $jawaban_c = $db->escapeString($_POST['jawaban_c']);
                                     $jawaban_d = $db->escapeString($_POST['jawaban_d']);
+                                    $jawaban_benar = $db->escapeString($_POST['jawaban_benar']);
                                     $jawaban_benar = $db->escapeString($_POST['jawaban_benar']);
 
                                     if(empty($soal) || empty($jawaban_a) || empty($jawaban_b) || empty($jawaban_c) || empty($jawaban_d) ){ ?>
@@ -169,7 +188,7 @@ $db->connect();
                                         </div>
                                      <?php } else {   
 
-                                        $params = array('soal'=>$soal, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar);
+                                        $params = array('soal'=>$soal, 'kelas_id'=>$kelas_id, 'mapel_id'=>$mapel_id, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar);
                                         $db->update($data['table'], $params, "id='".$id."'");
                                         $success = $db->getResult();
 
@@ -202,6 +221,20 @@ $db->connect();
                                         <table class='table table-bordered'>
          
                                             <tr>
+                                                <td>Mata Pelajaran</td>
+                                                <td>
+                                                    <select class="form-control" name="mapel_id" required>
+                                                        <option>Pilih Mata Pelajaran</option>
+                                                        <?php 
+                                                        $mapel = get_mapel(); 
+                                                        foreach ($mapel as $key => $mapel) { ?>
+                                                        <option value="<?php echo $mapel['id']; ?>" <?php check_selected($res[0]['mapel_id'], $mapel['id']); ?>><?php echo $mapel['mapel']; ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
                                                 <td>Soal</td>
                                                 <td><input type='text' name='soal' class='form-control' value="<?php echo $res[0]['soal']; ?>" required></td>
                                             </tr>
@@ -231,10 +264,10 @@ $db->connect();
                                                 <td>
                                                     <select class="form-control" name="jawaban_benar" required>
                                                         <option>Pilih Jawaban Benar</option>
-                                                        <option value="a" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_a'); ?>>Jawaban A</option>
-                                                        <option value="b" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_b'); ?>>Jawaban B</option>
-                                                        <option value="c" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_c'); ?>>Jawaban C</option>
-                                                        <option value="d" <?php check_selected($res[0]['jawaban_benar'], 'jawaban_d'); ?>>Jawaban D</option>
+                                                        <option value="a" <?php check_selected($res[0]['jawaban_benar'], 'a'); ?>>Jawaban A</option>
+                                                        <option value="b" <?php check_selected($res[0]['jawaban_benar'], 'b'); ?>>Jawaban B</option>
+                                                        <option value="c" <?php check_selected($res[0]['jawaban_benar'], 'c'); ?>>Jawaban C</option>
+                                                        <option value="d" <?php check_selected($res[0]['jawaban_benar'], 'd'); ?>>Jawaban D</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -391,27 +424,27 @@ $db->connect();
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">
-                                    <form class="form-inline" role="form" method="post" action="">
-                                        <select class="form-control" name="kelas">
-                                            <option value="">Pilih Kelas</option>
-                                            <?php  
-                                            $db->select('kelas');
-                                            $kelas = $db->getResult();
-                                            foreach ($kelas as $key => $kelas) { ?>
-                                                <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <select class="form-control" name="mapel">
-                                            <option value="">Mapel</option>
-                                            <?php  
-                                            $db->select('mapel');
-                                            $mapel = $db->getResult();
-                                            foreach ($mapel as $key => $mapel) { ?>
-                                                <option value="<?php echo $mapel['id']; ?>"><?php echo $mapel['mapel']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <button type="submit" class="btn btn-theme04">Pilih</button>
-                                    </form>
+                                    <div class="action-button pull-left">
+                                        <form class="form-inline" role="form" method="post" action="">
+                                            <select class="form-control" name="kelas">
+                                                <option value="">Pilih Kelas</option>
+                                                <?php 
+                                                $kelas = get_kelas();
+                                                foreach ($kelas as $key => $kelas) { ?>
+                                                    <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <select class="form-control" name="mapel">
+                                                <option value="">Mapel</option>
+                                                <?php  
+                                                $mapel = get_mapel();
+                                                foreach ($mapel as $key => $mapel) { ?>
+                                                    <option value="<?php echo $mapel['id']; ?>"><?php echo $mapel['mapel']; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <button type="submit" class="btn btn-theme04">Pilih</button>
+                                        </form>
+                                    </div>
                                 <!-- <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a> -->
                                 <hr>
                                 <table class='table table-striped table-advance table-hover'>

@@ -120,4 +120,15 @@ function get_mapel(){
   return $res;
 }
 
+function get_kelas(){
+  
+  $db = new Database();
+  $db->connect();
+
+  $db->select('kelas');
+  $res = $db->getResult();
+
+  return $res;
+}
+
 ?>

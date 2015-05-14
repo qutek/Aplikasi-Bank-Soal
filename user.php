@@ -352,8 +352,10 @@ $db->connect();
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">
-                                <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a>
-                                <hr>
+                                    <div class="action-button pull-right">
+                                        <a href="?act=tambah" class="btn btn-large btn-info button-add"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah <?php echo $data['name']; ?></a>
+                                    </div>    
+                                    <hr>
                                 <table class='table table-striped table-advance table-hover'>
                                     <tr>
                                        <th class="no">No.</th>

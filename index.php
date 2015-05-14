@@ -109,6 +109,6 @@
 </html>
 <?php 
 } else { 
-    include('dashboard-user.php');
+    include('dashboard-siswa.php');
 }
 ?>

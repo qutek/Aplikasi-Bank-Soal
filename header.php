@@ -275,7 +275,7 @@
                     'pertanyaan' => array(
                         'icon'  =>  'fa-mortar-board',
                         'title' =>  'Pertanyaan',
-                        'link'  =>  'index.php'
+                        'link'  =>  'dashboard-siswa.php'
                         ),
                     
                     'soal' => array(
@@ -320,13 +320,25 @@
                     );
 
                   // pass mapel to menu
-                  $mapel = get_mapel();
+                  // $mapel = get_mapel();
 
-                  foreach ($mapel as $key => $mapel) {
-                      $menu['tambah'.$mapel['id']] = array(
+                  // foreach ($mapel as $key => $mapel) {
+                  //     $menu['tambah'.$mapel['id']] = array(
+                  //       'icon'  =>  'fa-plus',
+                  //       'title' =>  $mapel['mapel'],
+                  //       'link'  =>  'soal.php?act=tambah&id='.$mapel['id'],
+                  //       'parent' => 'soal'
+                  //     );
+                  // }
+
+                  // pass kelas to menu
+                  $kelas = get_kelas();
+
+                  foreach ($kelas as $key => $kelas) {
+                      $menu['tambah'.$kelas['id']] = array(
                         'icon'  =>  'fa-plus',
-                        'title' =>  $mapel['mapel'],
-                        'link'  =>  'soal.php?act=tambah&id='.$mapel['id'],
+                        'title' =>  'Kelas '.$kelas['kelas'],
+                        'link'  =>  'soal.php?act=tambah&cl_id='.$kelas['id'],
                         'parent' => 'soal'
                       );
                   }
