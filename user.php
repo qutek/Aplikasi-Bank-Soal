@@ -119,7 +119,7 @@ $db->connect();
                                         </table>
                                     </form>
 
-                                  </div><! --/content-panel -->
+                                  </div><!--/content-panel-->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                   </section>
@@ -227,7 +227,7 @@ $db->connect();
                                         </table>
                                     </form>
 
-                                  </div><! --/content-panel -->
+                                  </div><!--/content-panel-->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                     </section>
@@ -325,7 +325,7 @@ $db->connect();
                                 }
                                 ?>
 
-                          </div><! --/content-panel -->
+                          </div><!--/content-panel-->
 
                             </div><!-- /col-md-12 -->
                         </div><!-- row -->
@@ -387,7 +387,7 @@ $db->connect();
 
                                 <?php echo $pages->page_links(); ?>
                                     
-                                  </div><! --/content-panel -->
+                                  </div><!--/content-panel-->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                   </section>

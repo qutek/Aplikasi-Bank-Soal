@@ -42,7 +42,9 @@ $db->connect();
 
                                     $username = $db->escapeString($_POST['username']); // Escape any input before insert
                                     $nama = $db->escapeString($_POST['nama']);
+                                    $kelamin = $db->escapeString($_POST['kelamin']);
                                     $password = $db->escapeString($_POST['password']);
+                                    $kelas = $db->escapeString($_POST['kelas']);
                                     $level = '3';
 
                                     $kelas = (!empty($kelas)) ? $kelas : '';
@@ -54,8 +56,9 @@ $db->connect();
                                         </div>
                                     <?php } else {
 
-                                        $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'level' => $level, 'kelas_id' => $kelas));  // Table name, column names and respective values
+                                        $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'kelamin' => $kelamin, 'level' => $level, 'kelas_id' => $kelas));  // Table name, column names and respective values
                                         $res = $db->getResult();  
+                                        // echo $db->getSql();
 
                                         // display notification if have submited form
                                         if (isset($res[0]) && is_integer($res[0])) {
@@ -98,6 +101,17 @@ $db->connect();
                                                 <td><input type='password' name='password' class='form-control' required></td>
                                             </tr>
                                      
+                                            <tr>
+                                                <td>Jenis Kelamin</td>
+                                                <td>
+                                                    <select name="kelamin" class="form-control" required>
+                                                        <option value="">Pilih jenis kelamin</option>
+                                                        <option value="Laki Laki">Laki Laki</option>
+                                                        <option value="Perempuan">Perempuan</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                     
                                             <tr id="kelas">
                                                 <td>Kelas</td>
                                                 <td>
@@ -125,7 +139,7 @@ $db->connect();
                                         </table>
                                     </form>
 
-                                  </div><! --/content-panel -->
+                                  </div><!--/content-panel-->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                   </section>
@@ -150,6 +164,7 @@ $db->connect();
                                     $username = $db->escapeString($_POST['username']); // Escape any input before insert
                                     $nama = $db->escapeString($_POST['nama']);
                                     $password = $db->escapeString($_POST['password']);
+                                    $kelamin = $db->escapeString($_POST['kelamin']);
                                     $kelas = $db->escapeString($_POST['kelas']);
                                     $level = '3';
 
@@ -161,12 +176,13 @@ $db->connect();
 
                                         if(!empty($password)){
                                             // update password too
-                                            $params = array('username' => $username, 'nama' => $nama, 'password' => md5($password), 'level' => $level, 'kelas_id' => $kelas);
+                                            $params = array('username' => $username, 'nama' => $nama, 'password' => md5($password), 'kelamin' => $kelamin, 'level' => $level, 'kelas_id' => $kelas);
                                         } else {
-                                            $params = array('username' => $username, 'nama' => $nama, 'level' => $level, 'kelas_id' => $kelas);
+                                            $params = array('username' => $username, 'nama' => $nama, 'kelamin' => $kelamin, 'level' => $level, 'kelas_id' => $kelas);
                                         }
                                         $db->update($data['table'], $params, "id='".$id."'");
                                         $success = $db->getResult();
+                                         // echo $db->getSql();
 
                                         // print_r($success); exit();
 
@@ -188,6 +204,9 @@ $db->connect();
 
                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
                                 $res = $db->getResult();
+                                // echo "<pre>";
+                                // print_r($res);
+                                // echo "</pre>";
                                 ?>
                                 <!-- Form goes here, change it here -->
                                   <div class="content-panel">
@@ -209,6 +228,17 @@ $db->connect();
                                             <tr>
                                                 <td>Password</td>
                                                 <td><input type='password' name='password' class='form-control' value="" placeholder="Kosongkan jika tidak ingin merubah password"></td>
+                                            </tr>
+                                     
+                                            <tr>
+                                                <td>Jenis Kelamin</td>
+                                                <td>
+                                                    <select name="kelamin" class="form-control" required>
+                                                        <option value="">Pilih jenis kelamin</option>
+                                                        <option value="Laki Laki" <?php check_selected($res[0]['kelamin'], 'Laki Laki'); ?>>Laki Laki</option>
+                                                        <option value="Perempuan" <?php check_selected($res[0]['kelamin'], 'Perempuan'); ?>>Perempuan</option>
+                                                    </select>
+                                                </td>
                                             </tr>
 
                                             <tr id="kelas">
@@ -238,7 +268,7 @@ $db->connect();
                                         </table>
                                     </form>
 
-                                  </div><! --/content-panel -->
+                                  </div><!--/content-panel -->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                     </section>
@@ -299,8 +329,8 @@ $db->connect();
                                          <tr>
                                              <th>ID Pengguna / NIK</th>
                                              <th>Nama</th>
-                                             <th>Password</th>
-                                             <th>Level</th>
+                                             <th>Jenis kelamin</th>
+                                             <th>Kelas</th>
                                          </tr>
                                          <tr>
                                              <?php
@@ -309,8 +339,8 @@ $db->connect();
                                              ?>
                                              <td><?php echo $res[0]['username']; ?></td>
                                              <td><?php echo $res[0]['nama']; ?></td>
-                                             <td>*****</td>
-                                             <td><?php echo get_level_name($res[0]['level']); ?></td>
+                                             <td><?php echo $res[0]['kelamin']; ?></td>
+                                             <td><?php echo get_kelas_name($res[0]['kelas_id']); ?></td>
                                          </tr>
                                      </table>
                                      <?php
@@ -336,7 +366,7 @@ $db->connect();
                                 }
                                 ?>
 
-                          </div><! --/content-panel -->
+                          </div><!--/content-panel-->
 
                             </div><!-- /col-md-12 -->
                         </div><!-- row -->
@@ -396,7 +426,7 @@ $db->connect();
                                        <th class="no">No.</th>
                                        <th>ID Pengguna</th>
                                        <th>Nama</th>
-                                       <th>Password</th>
+                                       <th>Jenis kelamin</th>
                                        <th>Kelas</th>
                                        <th class="action" align="center">Actions</th>
                                     </tr>
@@ -407,7 +437,7 @@ $db->connect();
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo $user['username']; ?></td>
                                         <td><?php echo $user['nama']; ?></td>
-                                        <td>*******</td>
+                                        <td><?php echo $user['kelamin']; ?></td>
                                         <td><?php 
                                             $db->select('kelas', '*','','id="'.$user['kelas_id'].'"');
                                             $reslt = $db->getResult();
@@ -427,7 +457,7 @@ $db->connect();
 
                                 <?php echo $pages->page_links(); ?>
                                     
-                                  </div><! --/content-panel -->
+                                  </div><!--/content-panel-->
                               </div><!-- /col-md-12 -->
                         </div><!-- row -->
                   </section>
