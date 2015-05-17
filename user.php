@@ -53,7 +53,7 @@ $db->connect();
                                     <?php } else {
 
                                         $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'level' => $level));  // Table name, column names and respective values
-                                        $res = $db->getResult();  
+                                        $res = is_array($db->getResult()) ? $db->getResult() : array();  
 
                                         // display notification if have submited form
                                         if (isset($res[0]) && is_integer($res[0])) {
@@ -159,7 +159,7 @@ $db->connect();
                                             $params = array('username' => $username, 'nama' => $nama, 'level' => $level);
                                         }
                                         $db->update($data['table'], $params, "id='".$id."'");
-                                        $success = $db->getResult();
+                                        $success = is_array($db->getResult()) ? $db->getResult() : array();
 
                                         // print_r($success); exit();
 
@@ -180,7 +180,7 @@ $db->connect();
                                 }
 
                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
-                                $res = $db->getResult();
+                                $res = is_array($db->getResult()) ? $db->getResult() : array();
                                 ?>
                                 <!-- Form goes here, change it here -->
                                   <div class="content-panel">
@@ -256,7 +256,7 @@ $db->connect();
                             if(isset($_POST['btn-del'])) {
                                 $id = $_GET['id'];
                                 $db->delete($data['table'], "id='".$id."'");
-                                $res = $db->getResult();
+                                $res = is_array($db->getResult()) ? $db->getResult() : array();
 
                                 // if deleted set status to true for display alert
                                 if($res)
@@ -294,7 +294,7 @@ $db->connect();
                                          <tr>
                                              <?php
                                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
-                                                $res = $db->getResult();
+                                                $res = is_array($db->getResult()) ? $db->getResult() : array();
                                              ?>
                                              <td><?php echo $res[0]['username']; ?></td>
                                              <td><?php echo $res[0]['nama']; ?></td>
@@ -345,7 +345,7 @@ $db->connect();
 
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
                     $db->select($data['table'], '*', '', 'level!=3', '', $pages->get_limit() );
-                    $res = $db->getResult();
+                    $res = is_array($db->getResult()) ? $db->getResult() : array();
                     ?>
                     <section class="wrapper">
                         <h3><i class="fa fa-user"></i> Daftar <?php echo $data['name']; ?></h3>

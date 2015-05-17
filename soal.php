@@ -57,7 +57,7 @@ $db->connect();
                                     <?php } else {
 
                                         $db->insert($data['table'], array('soal'=>$soal, 'mapel_id'=>$mapel_id, 'kelas_id'=>$kelas_id, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar));  // Table name, column names and respective values
-                                        $res = $db->getResult();  
+                                        $res = is_array($db->getResult()) ? $db->getResult() : array();  
 
                                         // display notification if success
                                         if (isset($res[0]) && is_integer($res[0])) {
@@ -189,7 +189,7 @@ $db->connect();
 
                                         $params = array('soal'=>$soal, 'mapel_id'=>$mapel_id, 'jawaban_a'=> $jawaban_a, 'jawaban_b'=> $jawaban_b, 'jawaban_c'=> $jawaban_c, 'jawaban_d'=> $jawaban_d,'jawaban_benar' => $jawaban_benar);
                                         $db->update($data['table'], $params, "id='".$id."'");
-                                        $success = $db->getResult();
+                                        $success = is_array($db->getResult()) ? $db->getResult() : array();
 
                                         // print_r($success); exit();
 
@@ -210,7 +210,7 @@ $db->connect();
                                 }
 
                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
-                                $res = $db->getResult();
+                                $res = is_array($db->getResult()) ? $db->getResult() : array();
                                 ?>
                                 <!-- Form goes here, change it here -->
                                   <div class="content-panel">
@@ -312,7 +312,7 @@ $db->connect();
                             if(isset($_POST['btn-del'])) {
                                 $id = $_GET['id'];
                                 $db->delete($data['table'], "id='".$id."'");
-                                $res = $db->getResult();
+                                $res = is_array($db->getResult()) ? $db->getResult() : array();
 
                                 // if deleted set status to true for display alert
                                 if($res)
@@ -347,7 +347,7 @@ $db->connect();
                                          <tr>
                                              <?php
                                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
-                                                $res = $db->getResult();
+                                                $res = is_array($db->getResult()) ? $db->getResult() : array();
                                              ?>
                                              <td><?php echo $res[0]['soal']; ?></td>
                                          </tr>
@@ -411,7 +411,7 @@ $db->connect();
                     $pages = new Pagination($data['perpage'],'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
                     $db->select($data['table'], '*', '', $where, '', $pages->get_limit() );
-                    $res = $db->getResult();
+                    $res = is_array($db->getResult()) ? $db->getResult() : array();
                     // $res = $db->getSql();
 
                     // echo "<pre>";

@@ -27,7 +27,7 @@ $db->connect();
                         <?php  
                         $filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas : '';
                         $db->select('mapel', 'mapel.id, mapel.mapel', 'soal', 'soal.mapel_id = mapel.id'.$filter);
-                        $mapel = $db->getResult();
+                        $mapel = is_array($db->getResult()) ? $db->getResult() : array();
 
                         $i = 0;
                         foreach ($mapel as $key => $mapel) { 

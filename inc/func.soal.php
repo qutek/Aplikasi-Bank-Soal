@@ -115,7 +115,7 @@ function get_mapel(){
   $db->connect();
 
   $db->select('mapel');
-  $res = $db->getResult();
+  $res = is_array($db->getResult()) ? $db->getResult() : array();
 
   return $res;
 }
@@ -126,7 +126,7 @@ function get_kelas(){
   $db->connect();
 
   $db->select('kelas');
-  $res = $db->getResult();
+  $res = is_array($db->getResult()) ? $db->getResult() : array();
 
   return $res;
 }
@@ -139,7 +139,7 @@ function get_kelas_name($id=''){
   $res = '';
   if($id != ''){
     $db->select('kelas', 'kelas', '', 'id='.$id);
-    $result = $db->getResult();
+    $result = is_array($db->getResult()) ? $db->getResult() : array();
     $res = $result[0]['kelas'];
   }
   return $res;
@@ -153,7 +153,7 @@ function get_mapel_name($id=''){
   $res = '';
   if($id != ''){
     $db->select('mapel', 'mapel', '', 'id='.$id);
-    $result = $db->getResult();
+    $result = is_array($db->getResult()) ? $db->getResult() : array();
     $res = $result[0]['mapel'];
   }
   return $res;

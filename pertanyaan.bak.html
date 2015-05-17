@@ -256,7 +256,7 @@ if(isset($_POST['btn-save'])) {
 
                 // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
                 $db->select($data['table'], '*', '', null, 'RAND()', $data['perpage']);
-                $res = $db->getResult();
+                $res = is_array($db->getResult()) ? $db->getResult() : array();
 
                 // echo "<pre>";
                 // print_r($res); exit();

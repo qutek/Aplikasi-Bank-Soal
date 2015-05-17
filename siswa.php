@@ -57,7 +57,7 @@ $db->connect();
                                     <?php } else {
 
                                         $db->insert($data['table'], array('username'=>$username, 'nama'=> $nama,'password'=> md5($password), 'kelamin' => $kelamin, 'level' => $level, 'kelas_id' => $kelas));  // Table name, column names and respective values
-                                        $res = $db->getResult();  
+                                        $res = is_array($db->getResult()) ? $db->getResult() : array();  
                                         // echo $db->getSql();
 
                                         // display notification if have submited form
@@ -119,7 +119,7 @@ $db->connect();
                                                         <option value="">Silahkan Pilih Kelas</option>
                                                         <?php  
                                                         $db->select('kelas');
-                                                        $kelas = $db->getResult();
+                                                        $kelas = is_array($db->getResult()) ? $db->getResult() : array();
                                                         foreach ($kelas as $key => $kelas) { ?>
                                                             <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
                                                         <?php } ?>
@@ -181,7 +181,7 @@ $db->connect();
                                             $params = array('username' => $username, 'nama' => $nama, 'kelamin' => $kelamin, 'level' => $level, 'kelas_id' => $kelas);
                                         }
                                         $db->update($data['table'], $params, "id='".$id."'");
-                                        $success = $db->getResult();
+                                        $success = is_array($db->getResult()) ? $db->getResult() : array();
                                          // echo $db->getSql();
 
                                         // print_r($success); exit();
@@ -203,7 +203,7 @@ $db->connect();
                                 }
 
                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
-                                $res = $db->getResult();
+                                $res = is_array($db->getResult()) ? $db->getResult() : array();
                                 // echo "<pre>";
                                 // print_r($res);
                                 // echo "</pre>";
@@ -248,7 +248,7 @@ $db->connect();
                                                         <option value="">Silahkan Pilih Kelas</option>
                                                         <?php  
                                                         $db->select('kelas');
-                                                        $kelas = $db->getResult();
+                                                        $kelas = is_array($db->getResult()) ? $db->getResult() : array();
                                                         foreach ($kelas as $key => $kelas) { ?>
                                                             <option value="<?php echo $kelas['id']; ?>" <?php check_selected($res[0]['kelas_id'], $kelas['id']); ?>><?php echo $kelas['kelas']; ?></option>
                                                         <?php } ?>
@@ -297,7 +297,7 @@ $db->connect();
                             if(isset($_POST['btn-del'])) {
                                 $id = $_GET['id'];
                                 $db->delete($data['table'], "id='".$id."'");
-                                $res = $db->getResult();
+                                $res = is_array($db->getResult()) ? $db->getResult() : array();
 
                                 // if deleted set status to true for display alert
                                 if($res)
@@ -335,7 +335,7 @@ $db->connect();
                                          <tr>
                                              <?php
                                                 $db->select($data['table'], '*','','id="'.$_GET['id'].'"');
-                                                $res = $db->getResult();
+                                                $res = is_array($db->getResult()) ? $db->getResult() : array();
                                              ?>
                                              <td><?php echo $res[0]['username']; ?></td>
                                              <td><?php echo $res[0]['nama']; ?></td>
@@ -395,7 +395,7 @@ $db->connect();
                     $pages = new Pagination($data['perpage'],'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
                     $db->select($data['table'], '*', '', $where, '', $pages->get_limit() );
-                    $res = $db->getResult();
+                    $res = is_array($db->getResult()) ? $db->getResult() : array();
                     // echo $db->getSql();
                     ?>
                     <section class="wrapper">
@@ -412,7 +412,7 @@ $db->connect();
                                                 <option value="">Pilih Kelas</option>
                                                 <?php  
                                                 $db->select('kelas');
-                                                $kelas = $db->getResult();
+                                                $kelas = is_array($db->getResult()) ? $db->getResult() : array();
                                                 foreach ($kelas as $key => $kelas) { ?>
                                                     <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
                                                 <?php } ?>
@@ -440,7 +440,7 @@ $db->connect();
                                         <td><?php echo $user['kelamin']; ?></td>
                                         <td><?php 
                                             $db->select('kelas', '*','','id="'.$user['kelas_id'].'"');
-                                            $reslt = $db->getResult();
+                                            $reslt = is_array($db->getResult()) ? $db->getResult() : array();
                                             echo $reslt[0]['kelas']; 
                                             ?>
                                         </td>

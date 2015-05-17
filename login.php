@@ -22,7 +22,7 @@ if(isset($_POST['btn-login'])){
 
 	$db->select('users', '*', '', 'username="'.$user.'" AND password="'.$pass.'"');
 	$numRows = $db->numRows();
-	$res = $db->getResult();
+	$res = is_array($db->getResult()) ? $db->getResult() : array();
 
 	if($numRows == 1){
 

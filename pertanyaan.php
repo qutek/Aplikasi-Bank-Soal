@@ -65,7 +65,7 @@ include('header-siswa.php');
             $db->connect();
 
             $db->select('mapel', 'mapel', 'soal', 'soal.mapel_id='.$mapel_id.$filter);
-            $mapels = $db->getResult();
+            $mapels = is_array($db->getResult()) ? $db->getResult() : array();
             if(empty($mapels)){
             	echo '<script language="javascript">alert("Anda tdak diperkenankan mengakses halaman ini!"); document.location="dashboard-siswa.php";</script>';
             }
@@ -89,7 +89,7 @@ include('header-siswa.php');
 
                 // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
                 $db->select($data['table'], '*', '', 'mapel_id='.$mapel_id.$filter, 'RAND()', $data['perpage']);
-                $res = $db->getResult();
+                $res = is_array($db->getResult()) ? $db->getResult() : array();
 
                 if(!empty($res)){
 
