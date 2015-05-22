@@ -298,6 +298,12 @@
                     //     'parent' => 'soal'
                     //     ),
                     
+                    'nilai' => array(
+                        'icon'  =>  'fa-database',
+                        'title' =>  'Nilai',
+                        'link'  =>  '#'
+                        ),
+                    
                     'mapel' => array(
                         'icon'  =>  'fa-puzzle-piece',
                         'title' =>  'Mata Pelajaran',
@@ -340,6 +346,16 @@
                         'title' =>  'Kelas '.$kelas['kelas'],
                         'link'  =>  'soal.php?act=tambah&cl_id='.$kelas['id'],
                         'parent' => 'soal'
+                      );
+                  }
+
+                  $nilai_kelas = get_kelas();
+                  foreach ($nilai_kelas as $key => $kelas) {
+                      $menu['nilai'.$kelas['id']] = array(
+                        'icon'  =>  'fa-paperclip',
+                        'title' =>  'Kelas '.$kelas['kelas'],
+                        'link'  =>  'nilai.php?cl_id='.$kelas['id'],
+                        'parent' => 'nilai'
                       );
                   }
 

@@ -64,15 +64,14 @@ include('header-siswa.php');
             $db = new Database();
             $db->connect();
 
-            $db->select('mapel', 'mapel', 'soal', 'soal.mapel_id='.$mapel_id.$filter);
+            $db->select('mapel', 'soal.*', 'soal', 'soal.mapel_id='.$mapel_id.$filter.' GROUP BY soal.id');
             $mapels = $db->getResult();
+
             if(empty($mapels)){
             	echo '<script language="javascript">alert("Anda tdak diperkenankan mengakses halaman ini!"); document.location="dashboard-siswa.php";</script>';
             }
-
-            $mapel = (null != $mapel_id) ? $mapels[0]['mapel'] : '';
           	?>
-            <h3><i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo $mapel; ?></h3>
+            <h3><i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($mapels[0]['mapel_id']); ?></h3>
             <?php if($success){ ?>
                 <div class='alert alert-success text-center'>
                     <h4>Jawaban berhasil disimpan !</h4>
@@ -112,7 +111,7 @@ include('header-siswa.php');
 	                                    <li class="list-primary">
 	                                        <i class=" fa fa-ellipsis-v"></i>
 	                                        <div class="task-checkbox">
-	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_a">
+	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="a">
 	                                        </div>
 	                                        <div class="task-title">
 	                                          <span class="task-title-sp"><?php echo $pertanyaan['jawaban_a']; ?></span>
@@ -122,7 +121,7 @@ include('header-siswa.php');
 	                                    <li class="list-primary">
 	                                        <i class=" fa fa-ellipsis-v"></i>
 	                                        <div class="task-checkbox">
-	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_b">
+	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="b">
 	                                        </div>
 	                                        <div class="task-title">
 	                                          <span class="task-title-sp"><?php echo $pertanyaan['jawaban_b']; ?></span>
@@ -132,7 +131,7 @@ include('header-siswa.php');
 	                                    <li class="list-primary">
 	                                        <i class=" fa fa-ellipsis-v"></i>
 	                                        <div class="task-checkbox">
-	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_c">
+	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="c">
 	                                        </div>
 	                                        <div class="task-title">
 	                                          <span class="task-title-sp"><?php echo $pertanyaan['jawaban_c']; ?></span>
@@ -142,7 +141,7 @@ include('header-siswa.php');
 	                                    <li class="list-primary">
 	                                        <i class=" fa fa-ellipsis-v"></i>
 	                                        <div class="task-checkbox">
-	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="jawaban_d">
+	                                            <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $pertanyaan['id']; ?>" value="d">
 	                                        </div>
 	                                        <div class="task-title">
 	                                          <span class="task-title-sp"><?php echo $pertanyaan['jawaban_d']; ?></span>

@@ -2269,3 +2269,6 @@ h5.pertanyaan {
 .form-panel.panel-submit {
     margin: 5px;
 }
+.bold {
+    font-weight: bold;
+}

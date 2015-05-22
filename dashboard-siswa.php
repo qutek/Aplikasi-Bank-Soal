@@ -25,7 +25,7 @@ $db->connect();
                     <div class="row mtbox">
 
                         <?php  
-                        $filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas : '';
+                        $filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas.' GROUP BY mapel.id' : '';
                         $db->select('mapel', 'mapel.id, mapel.mapel', 'soal', 'soal.mapel_id = mapel.id'.$filter);
                         $mapel = $db->getResult();
 

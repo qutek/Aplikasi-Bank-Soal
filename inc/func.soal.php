@@ -109,6 +109,19 @@ function is_can_access($levels){
   return true;
 }
 
+function get_userdata($user_id=''){
+  
+  $db = new Database();
+  $db->connect();
+
+  $where = (!empty($user_id)) ? 'id='.$user_id : '';
+
+  $db->select('users', '*', '', $where);
+  $res = $db->getResult();
+
+  return $res;
+}
+
 function get_mapel(){
   
   $db = new Database();
