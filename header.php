@@ -1,3 +1,4 @@
+<?php error_reporting(E_ALL); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -188,6 +189,7 @@
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="profile.php"><span class="fa fa-user"></span> My Profile</a></li>
                     <li><a class="logout" href="logout.php">Logout</a></li>
             	</ul>
             </div>
@@ -200,7 +202,7 @@
       <!--sidebar start-->
       <aside>
           <div id="sidebar"  class="nav-collapse ">
-              <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              <p class="centered"><a href="index.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
              <h5 class="centered">Bank Soal</h5>
               <!-- sidebar menu start-->
               <?php 

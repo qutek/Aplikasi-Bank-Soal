@@ -109,6 +109,10 @@
 </html>
 <?php 
 } else { 
-    include('dashboard-siswa.php');
+    if($_SESSION['level'] == '3'){
+      include('dashboard-siswa.php');
+    } else {
+      include('dashboard.php');
+    }
 }
 ?>

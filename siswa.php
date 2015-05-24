@@ -43,9 +43,8 @@ $db->connect();
                                     $username = $db->escapeString($_POST['username']); // Escape any input before insert
                                     $nama = $db->escapeString($_POST['nama']);
                                     $password = $db->escapeString($_POST['password']);
+                                    $kelas = (!empty($_POST['kelas'])) ? $db->escapeString($_POST['kelas']) : '';
                                     $level = '3';
-
-                                    $kelas = (!empty($kelas)) ? $kelas : '';
 
                                     // simple validation
                                     if(empty($username) || empty($nama) || empty($password) || empty($level) ){ ?>

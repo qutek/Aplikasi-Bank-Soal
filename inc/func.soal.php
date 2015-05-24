@@ -1,5 +1,11 @@
 <?php  
 
+function menuAvailable($menu){
+  $available = array('dashboard');
+
+  return $menu;
+}
+
 // Regenerate array to multidimention based parent
 function createMenu($arr_menu, $args = array() ){
     krsort($arr_menu);
@@ -17,7 +23,15 @@ function createMenu($arr_menu, $args = array() ){
       //3
     ksort($arr_menu);
 
+    // filter menu by user role
+    $av_menu = menuAvailable($arr_menu);
+    foreach ($arr_menu as $key => $value) {
+        if(in_array($key, $av_menu))
+          unset($arr_menu[$key]);
+    }
+
     // echo "<pre>";
+    // print_r($av_menu);
     // print_r($arr_menu);
     // echo "</pre>";
     // exit();

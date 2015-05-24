@@ -1,6 +1,6 @@
 <?php  
 include('inc/class.db.php');
-is_can_access(array('1','2', '3'));
+is_can_access(array('1','3'));
 
 $kelas = (isset($_SESSION['kelas'])) ? $_SESSION['kelas'] : false;
 $filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas : '';
@@ -71,7 +71,10 @@ include('header-siswa.php');
             	echo '<script language="javascript">alert("Anda tdak diperkenankan mengakses halaman ini!"); document.location="dashboard-siswa.php";</script>';
             }
           	?>
-            <h3><i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($mapels[0]['mapel_id']); ?></h3>
+            <h3>
+                <i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($mapels[0]['mapel_id']); ?>
+                <a class="pull-right btn btn-success" href="dashboard-siswa.php"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a>
+            </h3>
             <?php if($success){ ?>
                 <div class='alert alert-success text-center'>
                     <h4>Jawaban berhasil disimpan !</h4>
@@ -164,7 +167,7 @@ include('header-siswa.php');
 		            </div>
 	               	<?php } ?>
             </div><!-- /row pertanyaan-->
-            <?php if(!$success && !empty($res)) { ?>
+            <?php if(!$success && !empty($res) && $_SESSION['level'] == '3') { ?>
             <div class="row mt">
                 <div class="col-lg-12">
                     <div class="form-panel panel-submit">
