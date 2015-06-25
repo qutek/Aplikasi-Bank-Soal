@@ -1,13 +1,13 @@
 <?php
 include('inc/class.db.php');
-is_can_access(array('1','2'));
+is_can_access(array('1','3'));
 
-include('header.php');
+include('header-siswa.php');
 
 // change it here
 $data = array(
     'name' => 'Profile',
-    'base_file' => 'profile.php',
+    'base_file' => 'dashboard-siswa.php',
     'table' => 'users',
     'perpage' => '10',
     );
@@ -21,7 +21,7 @@ $db->connect();
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
-      <section id="main-content">
+      <section id="main-content-siswa">
             <section class="wrapper">
             <h3><i class="fa fa-user"></i> Edit <?php echo $data['name']; ?></h3>
                 <div class="row">
@@ -57,7 +57,7 @@ $db->connect();
 
                                 if($success) {
                                     $msg = "<div class='alert alert-info'>
-                                            ".$data['name']." berhasil diupdate!
+                                            ".$data['name']." berhasil diupdate! <a href='dashboard-siswa.php'>Kembali ke dashboard</a>
                                             </div>";
                                 } else {
                                     $msg = "<div class='alert alert-warning'>

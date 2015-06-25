@@ -2242,6 +2242,29 @@ label {
 }
 
 /* Our custom */
+.text-right {
+    text-align: right;
+}
+.pagination > li > span.current {
+  color: #2a6496;
+  background-color: #eee;
+  border-color: #ddd;
+}
+.tasks-widget .task-list > li.list-primary.benar {
+  background-color: #dff0d8;
+}
+
+.pagination > li > span.disabled {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #428bca;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
 div.action-button.pull-left {
     margin-right: 10px;
 }
@@ -2265,6 +2288,9 @@ h5.pertanyaan {
 }
 .task-title span.badge-dipilih {
     display: none;
+}
+.task-title span.badge-dipilih.dipilih {
+    display: inline-block;
 }
 .form-panel.panel-submit {
     margin: 5px;

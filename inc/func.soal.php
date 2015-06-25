@@ -200,4 +200,59 @@ function filter_by_value($array, $index, $value){
   return $newarray; 
 } 
 
+function is_benar($bnr, $compare, $echo){
+  $benar = ($bnr == $compare) ? 'benar' : '';
+  $return = ($echo) ? $benar : '';
+  echo $return;
+}
+
+function is_dipilih($val, $current){
+  if(!empty($val) && ($val == $current)){
+    return 'dipilih';
+  } else {
+    return '';
+  }
+
+}
+
+function list_pluck( $list, $field, $index_key = null ) {
+    if ( ! $index_key ) {
+        /*
+         * This is simple. Could at some point wrap array_column()
+         * if we knew we had an array of arrays.
+         */
+        foreach ( $list as $key => $value ) {
+            if ( is_object( $value ) ) {
+                $list[ $key ] = $value->$field;
+            } else {
+                $list[ $key ] = $value[ $field ];
+            }
+        }
+        return $list;
+    }
+ 
+    /*
+     * When index_key is not set for a particular item, push the value
+     * to the end of the stack. This is how array_column() behaves.
+     */
+    $newlist = array();
+    foreach ( $list as $value ) {
+        if ( is_object( $value ) ) {
+            if ( isset( $value->$index_key ) ) {
+                $newlist[ $value->$index_key ] = $value->$field;
+            } else {
+                $newlist[] = $value->$field;
+            }
+        } else {
+            if ( isset( $value[ $index_key ] ) ) {
+                $newlist[ $value[ $index_key ] ] = $value[ $field ];
+            } else {
+                $newlist[] = $value[ $field ];
+            }
+        }
+    }
+ 
+    return $newlist;
+}
+
 ?>

@@ -46,7 +46,8 @@
         
     <div class="top-menu">
           <ul class="nav pull-right top-menu">
-            <li><a class="logout" href="profile.php"><span class="fa fa-user"></span> My Profile</a></li>
+            <li><a class="logout" href="nilai-siswa.php"><span class="fa fa-user"></span> Nilai Saya</a></li>
+            <li><a class="logout" href="profile-siswa.php"><span class="fa fa-user"></span> Profil Saya</a></li>
             <li><a class="logout" href="logout.php">Logout</a></li>
         </ul>
     </div>

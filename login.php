@@ -11,18 +11,26 @@ if (isset($_SESSION['level'])){
 }
 
 if(isset($_POST['btn-login'])){
-	// safety first :)
-	$user = mysql_real_escape_string(htmlentities($_POST['username']));
-	$pass = mysql_real_escape_string(htmlentities(md5($_POST['password'])));
 
 	include('inc/class.db.php');
 
 	$db = new Database();
 	$db->connect();
 
+	$user = $db->escapeString($_POST['username']);
+	$pass = $db->escapeString(md5($_POST['password']));
+
 	$db->select('users', '*', '', 'username="'.$user.'" AND password="'.$pass.'"');
 	$numRows = $db->numRows();
 	$res = $db->getResult();
+
+	// $sql = $db->getSql();
+
+
+	// echo "<pre>";
+	// print_r($sql);
+	// echo "</pre>";
+	// exit();
 
 	if($numRows == 1){
 

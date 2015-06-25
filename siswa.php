@@ -349,14 +349,8 @@ $db->connect();
                     * Default page view goes here, display the data.
                     ***************************************/
                     $where = 'level=3';
-                    if(!empty($_POST['kelas']) || !empty($_POST['mapel'])){
-
-                        if (!empty($_POST['kelas'])){
-                            $wh_kelas = ' AND kelas_id='.$db->escapeString($_POST['kelas']);
-                        }
-
-                        $where .= $wh_kelas;
-                        
+                    if (!empty($_POST['kelas'])){
+                        $where = ' AND kelas_id='.$db->escapeString($_POST['kelas']);
                     }
 
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)

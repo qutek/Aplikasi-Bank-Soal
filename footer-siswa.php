@@ -1,14 +1,3 @@
-<!--main content end-->
-<!--footer start-->
-<!-- <footer class="site-footer">
-  <div class="text-center">
-    Aplikasi Bank Soal
-      <a href="#" class="go-top">
-          <i class="fa fa-angle-up"></i>
-      </a>
-  </div>
-</footer> -->
-<!--footer end-->
 </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -24,8 +13,7 @@
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
-
-    <?php if($notif){ 
+    <?php if(@$notif){ 
       $kelas = (isset($_SESSION['kelas'])) ? get_kelas_name($_SESSION['kelas']) : '';
       ?>
     <script type="text/javascript">
