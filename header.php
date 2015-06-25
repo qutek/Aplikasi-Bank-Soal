@@ -45,7 +45,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.php" class="logo"><b>Aplikasi Bank Soal</b></a>
+            <a href="dashboard.php" class="logo"><b>Aplikasi Bank Soal</b></a>
             <!--logo end-->
             
             <div class="top-menu">
@@ -63,7 +63,7 @@
       <!--sidebar start-->
       <aside>
           <div id="sidebar"  class="nav-collapse ">
-              <p class="centered"><a href="index.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+              <p class="centered"><a href="dashboard.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
              <h5 class="centered">Bank Soal</h5>
               <!-- sidebar menu start-->
               <?php 

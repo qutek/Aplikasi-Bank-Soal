@@ -41,7 +41,7 @@
       <header class="header black-bg">
 
         <!--logo start-->
-        <a href="index.php" class="logo"><b>Aplikasi Bank Soal</b></a>
+        <a href="dashboard-siswa.php" class="logo"><b>Aplikasi Bank Soal</b></a>
         <!--logo end-->
         
     <div class="top-menu">
