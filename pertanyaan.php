@@ -101,7 +101,7 @@ $kelas = (isset($_SESSION['kelas'])) ? $_SESSION['kelas'] : false;
 $filter = ($kelas != false) ? ' AND soal.kelas_id='.$kelas : '';
 
 $not_in = (!empty($taken) && is_array($taken)) ? ' WHERE hasil.id_user = '.$_SESSION['id_user'].' AND hasil.id_soal NOT IN ('.implode(',', $taken).') ' : ' WHERE soal.mapel_id = '.$mapel_id;              
-$db->sql('SELECT hasil.id_soal, hasil.id_user, soal.* FROM soal LEFT JOIN hasil ON hasil.id_soal = soal.id '.$not_in.$filter, $order, $data['perpage']);
+$db->sql('SELECT hasil.id_soal, hasil.id_user, soal.* FROM soal LEFT JOIN hasil ON hasil.id_soal = soal.id '.$not_in.$filter. ' ORDER BY ' . $order . ' LIMIT ' . $data['perpage']);
 // $db->select($data['table'], '*', '', 'mapel_id='.$mapel_id.$filter.$not_in, $order, $data['perpage']);
 $res = $db->getResult();
 // print_r($db->getSql()); exit();
