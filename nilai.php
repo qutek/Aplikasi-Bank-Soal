@@ -46,9 +46,9 @@ $db->connect();
 
                     $res = $db->getResult();
 
-                    echo "<pre>";
-                    print_r($query);
-                    echo "</pre>";
+                    // echo "<pre>";
+                    // print_r($res);
+                    // echo "</pre>";
                     ?>
                     <section class="wrapper">
                         <h3><i class="fa fa-puzzle-piece"></i>Detail <?php echo $data['name'].' '.get_mapel_name( $db->escapeString($_GET['mapel']) ); ?> Kelas <?php echo get_kelas_name($db->escapeString($_GET['cl_id'])); ?></h3>
@@ -117,9 +117,9 @@ $db->connect();
 
                     $res = $db->getResult();
 
-                    // echo "<pre>";
-                    // print_r($res);
-                    // echo "</pre>";
+                    echo "<pre>";
+                    print_r($res);
+                    echo "</pre>";
                     ?>
                     <section class="wrapper">
                         <h3><i class="fa fa-puzzle-piece"></i>Daftar <?php echo $data['name']; ?></h3>
@@ -150,7 +150,7 @@ $db->connect();
                                        <th class="action" align="center">Actions</th>
                                     </tr>
                                     <?php 
-                                    if(is_array($res) && !empty($res)){
+                                    if(is_array($res) && $res[0]['jml'] > 0){
                                         $i = 1;
                                         foreach($res as $nilai){
                                             ?>
