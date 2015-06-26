@@ -255,4 +255,25 @@ function list_pluck( $list, $field, $index_key = null ) {
     return $newlist;
 }
 
+function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max){
+
+  $db = new Database();
+  $db->connect();
+
+  $db->sql('SELECT COUNT(hasil.id) count, IFNULL(tryout, 1) tryout FROM hasil 
+            INNER JOIN soal ON soal.id = hasil.id_soal
+            WHERE tryout = (SELECT MAX(tryout) FROM hasil)
+            AND hasil.id_user = '.$id_user.' AND soal.mapel_id = '.$id_mapel.'
+            AND soal.kelas_id = '.$id_kelas);
+
+  $res = $db->getResult();
+  if($res[0]['count'] >= $max){
+    $tryout = $res[0]['tryout']+1;
+  } else {
+    $tryout = $res[0]['tryout'];
+  }
+
+  return $tryout;
+}
+
 ?>

@@ -2242,6 +2242,16 @@ label {
 }
 
 /* Our custom */
+.not-found {
+  border: dashed 2px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 900px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 .text-right {
     text-align: right;
 }
