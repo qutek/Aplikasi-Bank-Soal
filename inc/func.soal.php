@@ -93,7 +93,9 @@ function check_selected($val, $current){
 }
 
 function is_can_access($levels){
-  session_start();
+  if (!isset($_SESSION))
+    session_start();
+  
 
   $can_access = false;
 
@@ -274,6 +276,18 @@ function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max){
   }
 
   return $tryout;
+}
+
+function get_taken_tryout($id_user, $id_mapel, $id_kelas){
+  $db = new Database();
+  $db->connect();
+
+  $db->sql('SELECT tryout, mapel_id FROM hasil INNER JOIN soal on soal.id = hasil.id_soal
+            WHERE mapel_id = '.$id_mapel.' AND kelas_id = '.$id_kelas.' AND id_user = '.$id_user.'
+            GROUP BY tryout');
+
+  $res = $db->getResult();
+  return list_pluck($res, 'tryout');
 }
 
 ?>

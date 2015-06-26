@@ -2242,6 +2242,46 @@ label {
 }
 
 /* Our custom */
+.wrapper-siswa {
+    margin-top: 100px;
+}
+.profile-01 a {
+    color: #fff;
+}
+.wrapper.wrapper-nilai {
+    margin-top: 0px;
+  color: #797272;
+}
+.pn.pn-siswa {
+    height: auto;
+    padding-bottom: 10px;
+}
+.pn.pn-siswa .box-tryout {
+      border: solid #ccd1d9;
+}
+.content-panel.panel-tryout {
+      background: #ffffff;
+  box-shadow: 0px 3px 2px #aab2bd;
+   padding-top: 0px; 
+   padding-bottom: 0px; 
+  height: auto;
+}
+#profile-01.tryout-list{
+      background: url(../img/profile-01.jpg) no-repeat center top;
+  margin-top: -15px;
+  background-attachment: relative;
+  background-position: center center;
+   min-height: 0px; 
+  width: 100%;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 .not-found {
   border: dashed 2px;
   padding: 10px;
