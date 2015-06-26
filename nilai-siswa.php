@@ -90,7 +90,7 @@ $kelas = $db->escapeString($_SESSION['kelas']);
                                             ?>
                                             <tr>
                                                 <td colspan="4" style="text-align:left;font-weight: bold;font-size: 14px;">Jumlah Nilai</td>
-                                                <td style="font-weight: bold;font-size: 14px;"><?php echo array_sum(list_pluck($res , 'nilai')) * 10 / count($res); ?></td>
+                                                <td style="font-weight: bold;font-size: 14px;"><?php echo round(array_sum(list_pluck($res , 'nilai')) * 10 / count($res), 2); ?></td>
                                             </tr>
                                             <?php
                                         }
