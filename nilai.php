@@ -117,9 +117,9 @@ $db->connect();
 
                     $res = $db->getResult();
 
-                    echo "<pre>";
-                    print_r($res);
-                    echo "</pre>";
+                    // echo "<pre>";
+                    // print_r($res);
+                    // echo "</pre>";
                     ?>
                     <section class="wrapper">
                         <h3><i class="fa fa-puzzle-piece"></i>Daftar <?php echo $data['name']; ?></h3>
