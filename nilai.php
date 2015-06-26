@@ -47,7 +47,7 @@ $db->connect();
                     $res = $db->getResult();
 
                     echo "<pre>";
-                    print_r($res);
+                    print_r($query);
                     echo "</pre>";
                     ?>
                     <section class="wrapper">
