@@ -32,11 +32,20 @@ $db->connect();
 
                     // $query = 'select hasil.id, hasil.id_user, soal.mapel_id, soal.kelas_id, soal.jawaban_benar, hasil.jawaban, SUM(IF(soal.jawaban_benar=hasil.jawaban,10,0)) total_nilai from hasil join soal on soal.id = hasil.id_soal
                     //           where soal.kelas_id='.$db->escapeString($_GET['cl_id']);
-                    $query = 'select h.id_user, s.mapel_id, s.kelas_id, count(id_soal) jml_jwbn, SUM(IF(s.jawaban_benar=h.jawaban,1,0)) jml_jwbn_bnr 
-                                from hasil h inner join (select id, mapel_id,kelas_id, jawaban_benar from soal) s 
-                                on s.id = h.id_soal
-                                where s.kelas_id='.$db->escapeString($_GET['cl_id']).' and s.mapel_id='.$db->escapeString($_GET['mapel']).'
-                                group by h.id_user';
+                    // $query = 'select h.id_user, s.mapel_id, s.kelas_id, count(id_soal) jml_jwbn, SUM(IF(s.jawaban_benar=h.jawaban,1,0)) jml_jwbn_bnr 
+                    //             from hasil h inner join (select id, mapel_id,kelas_id, jawaban_benar from soal) s 
+                    //             on s.id = h.id_soal
+                    //             where s.kelas_id='.$db->escapeString($_GET['cl_id']).' and s.mapel_id='.$db->escapeString($_GET['mapel']).'
+                    //             group by h.id_user';
+                    
+                    $query = 'SELECT u.nama, u.kelas_id, h.* FROM users u LEFT JOIN
+                                ( SELECT hasil.id_user, soal.mapel_id,
+                                GROUP_CONCAT(if(tryout = "1", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS satu, 
+                                GROUP_CONCAT(if(tryout = "2", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS dua,
+                                GROUP_CONCAT(if(tryout = "3", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS tiga
+                                FROM hasil INNER JOIN soal on soal.id = hasil.id_soal) h
+                                ON u.id = h.id_user
+                                WHERE kelas_id = '.$db->escapeString($_GET['cl_id']).' AND mapel_id = '.$db->escapeString($_GET['mapel']);
 
                     $db->sql($query);
 
@@ -61,24 +70,24 @@ $db->connect();
                                         <tr>
                                            <th class="no">No.</th>
                                            <th>Nama</th>
-                                           <th>No. Induk</th>
-                                           <th>Total Jawaban</th>
-                                           <th>Total Jawaban Benar</th>
-                                           <th>Nilai</th>
+                                           <th>Tryout 1</th>
+                                           <th>Tryout 2</th>
+                                           <th>Tryout 3</th>
+                                           <th>Nilai Rata Rata</th>
                                         </tr>
                                         <?php 
                                         if(is_array($res) && !empty($res[0]['id_user'])){
                                             $i = 1;
-                                            foreach($res as $nilai){
-                                            $userdata = get_userdata($nilai['id_user']);
+                                            foreach($res as $key => $nilai){
                                             ?>
                                             <tr>
                                                 <td><?php echo $i; ?></td>
-                                                <td><?php echo $userdata[0]['nama']; ?></td>
-                                                <td><?php echo $userdata[0]['username']; ?></td>
-                                                <td><?php echo $nilai['jml_jwbn']; ?> Jawaban</td>
-                                                <td><?php echo $nilai['jml_jwbn_bnr']; ?> Jawaban</td>
-                                                <td class="bold"><?php echo ($nilai['jml_jwbn_bnr'] * 10) / $nilai['jml_jwbn']; ?></td>
+                                                <td><?php echo $nilai['nama']; ?></td>
+                                                <td><?php echo get_rata_rata($nilai['satu']); ?></td>
+                                                <td><?php echo get_rata_rata($nilai['dua']); ?></td>
+                                                <td><?php echo get_rata_rata($nilai['tiga']); ?></td>
+                                                <?php $tot = get_rata_rata($nilai['satu']).','.get_rata_rata($nilai['dua']).','.get_rata_rata($nilai['tiga']); ?>
+                                                <td class="bold"><?php echo get_rata_rata($tot); ?></td>
                                             </tr>
                                             <?php 
                                             $i++;

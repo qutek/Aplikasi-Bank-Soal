@@ -290,4 +290,11 @@ function get_taken_tryout($id_user, $id_mapel, $id_kelas){
   return list_pluck($res, 'tryout');
 }
 
+function get_rata_rata($nilai){
+  $val = explode(',', $nilai);
+  $jml = count($val);
+  $nilai = array_sum($val) * 10 / $jml;
+
+  return round($nilai, 2);
+}
 ?>
