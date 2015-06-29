@@ -23,7 +23,7 @@ $db->connect();
       <!--main content start-->
       <section id="main-content">
             <?php 
-            switch ($_GET['act']) {
+            switch (@$_GET['act']) {
                 case 'tambah':
                     /**************************************
                     * Add data page view goes here, display the add form.
@@ -410,16 +410,19 @@ $db->connect();
                     $db->select($data['table'],'id', '', $where);
                     $pages = new Pagination($data['perpage'],'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
-                    $db->select($data['table'], '*', '', $where, '', $pages->get_limit() );
-                    $res = $db->getResult();
-                    // $res = $db->getSql();
+                    
+                    $dbsoal = new Database();
+                    $dbsoal->connect();
+                    $dbsoal->select($data['table'], '*', '', $where, '', $pages->get_limit() );
+                    $res = $dbsoal->getResult();
 
                     // echo "<pre>";
-                    // print_r($res);
+                    // print_r($resu);
                     // echo "</pre>";
                     ?>
                     <section class="wrapper">
-                        <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; ?></h3>
+                        <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; 
+                    echo $db->getSql(); ?></h3>
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">

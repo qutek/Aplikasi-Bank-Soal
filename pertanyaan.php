@@ -1,6 +1,6 @@
 <?php  
 include('inc/class.db.php');
-is_can_access(array('1','3'));
+is_can_access(array('3'));
 
 include('header-siswa.php');
 
