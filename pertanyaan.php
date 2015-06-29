@@ -10,8 +10,8 @@ $data = array(
     'base_file' => 'index.php',
     'table' => 'soal',
     'table_hasil' => 'hasil',
-    'perpage' => '1',
-    'questions_per_tryout' => 2,
+    'perpage' => '10',
+    'questions_per_tryout' => 20,
     'max_tryout' => 3,
     );
 
