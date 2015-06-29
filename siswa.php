@@ -350,7 +350,7 @@ $db->connect();
                     ***************************************/
                     $where = 'level=3';
                     if (!empty($_POST['kelas'])){
-                        $where = ' AND kelas_id='.$db->escapeString($_POST['kelas']);
+                        $where .= ' AND kelas_id='.$db->escapeString($_POST['kelas']);
                     }
 
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)

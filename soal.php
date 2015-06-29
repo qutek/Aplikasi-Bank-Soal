@@ -421,8 +421,7 @@ $db->connect();
                     // echo "</pre>";
                     ?>
                     <section class="wrapper">
-                        <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; 
-                    echo $db->getSql(); ?></h3>
+                        <h3><i class="fa fa-puzzle-piece"></i> Daftar <?php echo $data['name']; ?></h3>
                         <div class="row">
                               <div class="col-md-12">
                                   <div class="content-panel content-table">
