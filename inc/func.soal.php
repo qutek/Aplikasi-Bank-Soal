@@ -297,4 +297,11 @@ function get_rata_rata($nilai){
 
   return round($nilai, 2);
 }
+
+function get_total($ar_nilai){
+  $tot = array_sum($ar_nilai);
+  $jml = count($ar_nilai);
+
+  return round($tot / $jml, 2);
+}
 ?>

@@ -86,8 +86,7 @@ $db->connect();
                                                 <td><?php echo get_rata_rata($nilai['satu']); ?></td>
                                                 <td><?php echo get_rata_rata($nilai['dua']); ?></td>
                                                 <td><?php echo get_rata_rata($nilai['tiga']); ?></td>
-                                                <?php $tot = get_rata_rata($nilai['satu']).','.get_rata_rata($nilai['dua']).','.get_rata_rata($nilai['tiga']); ?>
-                                                <td class="bold"><?php echo get_rata_rata($tot); ?></td>
+                                                <td class="bold"><?php echo get_total(array(get_rata_rata($nilai['satu']), get_rata_rata($nilai['dua']), get_rata_rata($nilai['tiga']) ) ); ?></td>
                                             </tr>
                                             <?php 
                                             $i++;
