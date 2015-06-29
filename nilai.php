@@ -113,11 +113,13 @@ $db->connect();
                     * Default page view goes here, display the data.
                     ***************************************/
 
-                    $query = 'select kelas_id, mapel_id, count(h.id_user) jml from soal s LEFT join (select id_soal, id_user from hasil group by id_user) h on h.id_soal = s.id
+                    $query = 'select kelas_id, mapel_id, count(h.id_user) jml from soal s inner join (select id_soal, id_user from hasil group by id_user) h on h.id_soal = s.id
                               where s.kelas_id ='.$db->escapeString($_GET['cl_id']);
                     if(!empty($_POST['mapel'])){
                         $query .= ' and s.mapel_id='.$db->escapeString($_POST['mapel']);
                     }
+
+                    $query .= ' group by mapel_id';
 
                     $db->sql($query);
 
