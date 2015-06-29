@@ -39,11 +39,13 @@ $db->connect();
                     //             group by h.id_user';
                     
                     $query = 'SELECT u.nama, u.kelas_id, h.* FROM users u LEFT JOIN
-                                ( SELECT hasil.id_user, soal.mapel_id,
-                                GROUP_CONCAT(if(tryout = "1", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS satu, 
-                                GROUP_CONCAT(if(tryout = "2", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS dua,
-                                GROUP_CONCAT(if(tryout = "3", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS tiga
-                                FROM hasil INNER JOIN soal on soal.id = hasil.id_soal) h
+                                ( SELECT  
+                                  id_user, soal.mapel_id,
+                                  GROUP_CONCAT(if(tryout = "1", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS satu, 
+                                  GROUP_CONCAT(if(tryout = "2", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS dua,
+                                  GROUP_CONCAT(if(tryout = "3", (case when (jawaban = jawaban_benar) THEN 10 ELSE 0 END), NULL)) AS tiga
+                                FROM hasil INNER JOIN soal on soal.id = hasil.id_soal
+                                GROUP BY id_user ) h
                                 ON u.id = h.id_user
                                 WHERE kelas_id = '.$db->escapeString($_GET['cl_id']).' AND mapel_id = '.$db->escapeString($_GET['mapel']);
 
