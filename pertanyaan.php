@@ -10,8 +10,8 @@ $data = array(
     'base_file' => 'index.php',
     'table' => 'soal',
     'table_hasil' => 'hasil',
-    'perpage' => '10',
-    'questions_per_tryout' => 20,
+    'perpage' => '1',
+    'questions_per_tryout' => 2,
     'max_tryout' => 3,
     );
 
@@ -76,7 +76,8 @@ if($review){
             ORDER BY RAND() LIMIT '.$data['perpage'];
 }
 
-$tryout = get_latest_tryout($id_user, $mapel_id, $id_kelas, $data['questions_per_tryout']);
+$is_post = (!empty($_POST['tryout'])) ? true : false;
+$tryout = get_latest_tryout($id_user, $mapel_id, $id_kelas, $data['questions_per_tryout'], $is_post);
 // echo "<pre>";
 // print_r($query);
 // echo "</pre>";
@@ -99,7 +100,12 @@ MAIN CONTENT
     <section id="main-content-pertanyaan">
         <section class="wrapper">
             <?php  
-            if($tryout > $data['max_tryout']){ ?>
+            if($tryout == -1){ ?>
+                <div class="not-found" style="margin-top:50px;">
+                    <h1>Terima kasih</h1>
+                    <p>Kembali ke <a href="dashboard-siswa.php">dashboard</a></p>
+                </div>
+            <?php } else if($tryout >= $data['max_tryout']){ ?>
                 <div class="not-found" style="margin-top:50px;">
                     <h1>Tryout anda telah selesai</h1>
                 </div>

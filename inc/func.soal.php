@@ -257,7 +257,7 @@ function list_pluck( $list, $field, $index_key = null ) {
     return $newlist;
 }
 
-function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max){
+function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max, $is_post=false){
 
   $db = new Database();
   $db->connect();
@@ -270,7 +270,7 @@ function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max){
 
   $res = $db->getResult();
   if($res[0]['count'] >= $max){
-    $tryout = $res[0]['tryout']+1;
+    $tryout = ($is_post) ? -1 : $res[0]['tryout']+1;
   } else {
     $tryout = $res[0]['tryout'];
   }
