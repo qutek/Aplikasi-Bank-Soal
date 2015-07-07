@@ -149,13 +149,14 @@ MAIN CONTENT
                         <?php  
                         if(is_array($soals)){
                         $i=1;
+                        echo '<div class="row">';
                         foreach ($soals as $key => $pertanyaan) { 
                         $id = $pertanyaan['id'];
                         // langsung insert default jawaban
                         if(!$not_complete && !isset($_POST['btn-save'])){
                             $db->insert($data['table_hasil'], array('id_user'=>$id_user, 'tryout'=> '0', 'id_soal'=> $pertanyaan['id'], 'jawaban'=> 'x'));
                         }
-                        if((($i-1 % 2) == 0) || $i == 1){
+                        if(($i % 2) == 0){
                             echo '<div class="row">';
                         }
                         ?>                 
@@ -219,7 +220,7 @@ MAIN CONTENT
                             </section>
                         </div>
                         <?php
-                            if((($i+1 % 2) == 0) || $i == 2){
+                            if(($i+1 % 2) == 0){
                                 echo '</div>';
                             }
                             $i++;
