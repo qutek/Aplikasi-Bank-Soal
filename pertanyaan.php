@@ -156,9 +156,9 @@ MAIN CONTENT
                         if(!$not_complete && !isset($_POST['btn-save'])){
                             $db->insert($data['table_hasil'], array('id_user'=>$id_user, 'tryout'=> '0', 'id_soal'=> $pertanyaan['id'], 'jawaban'=> 'x'));
                         }
-                        if($i % 2 === 0){
-                            echo '<div class="row">';
-                        }
+                        // if($i % 2 === 0){
+                        //     echo '<div class="row">';
+                        // }
                         ?>                 
                         <div class="col-md-6">
                             <section class="task-panel tasks-widget">
@@ -221,7 +221,7 @@ MAIN CONTENT
                         </div>
                         <?php
                             if($i % 2 === 0){
-                                echo '</div>';
+                                echo '</div><div class="row"';
                             }
                             $i++;
                             }
