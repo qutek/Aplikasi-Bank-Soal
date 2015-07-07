@@ -142,6 +142,8 @@ MAIN CONTENT
                     <i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($soals[0]['mapel_id']) .' ( Tryout : '.$tryout.' )'; ?>
                     <!-- <a class="pull-right btn btn-success" href="dashboard-siswa.php"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a> -->
                     <?php
+                    date_default_timezone_set('Asia/Jakarta');
+
                     if(!$not_complete && !isset($_POST['btn-save'])){
                         $_SESSION['time_start'] = date('Y-m-d h:i:s');
                     }
@@ -149,7 +151,7 @@ MAIN CONTENT
                     $start = (isset($_SESSION['time_start'])) ? $_SESSION['time_start'] : date('Y-m-d h:i:s');
 
                     $currentDate = strtotime($start);
-                    $futureDate = $currentDate+(60*01);
+                    $futureDate = $currentDate+(60*30);
                     $formatDate = date(DATE_ISO8601, $futureDate);
 
                     ?>
