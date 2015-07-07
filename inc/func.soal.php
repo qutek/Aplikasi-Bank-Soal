@@ -217,6 +217,18 @@ function is_dipilih($val, $current){
 
 }
 
+function is_not_complete($id_user, $id_kelas, $id_mapel){
+  $db = new Database();
+  $db->connect();
+  $db->sql('SELECT * FROM hasil 
+            INNER JOIN soal ON soal.id = hasil.id_soal
+            WHERE hasil.tryout = 0
+            AND hasil.id_user = '.$id_user.' AND soal.mapel_id = '.$id_mapel.'
+            AND soal.kelas_id = '.$id_kelas);
+  $numRow = $db->numRows();
+  return ( $numRow> 0) ? true : false;
+}
+
 function list_pluck( $list, $field, $index_key = null ) {
     if ( ! $index_key ) {
         /*
@@ -272,7 +284,7 @@ function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max, $is_post=false)
   if($res[0]['count'] >= $max){
     $tryout = ($is_post) ? -1 : $res[0]['tryout']+1;
   } else {
-    $tryout = $res[0]['tryout'];
+    $tryout = (0 == $res[0]['tryout']) ? '1' : $res[0]['tryout'] ;
   }
 
   return $tryout;

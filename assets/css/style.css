@@ -2348,3 +2348,9 @@ h5.pertanyaan {
 .bold {
     font-weight: bold;
 }
+#main-content-pertanyaan .timer {
+      border: solid 2px;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #ffd777;
+}

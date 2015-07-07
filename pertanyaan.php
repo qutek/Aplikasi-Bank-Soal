@@ -1,4 +1,6 @@
 <?php  
+error_reporting(0);
+
 include('inc/class.db.php');
 is_can_access(array('3'));
 
@@ -28,6 +30,8 @@ if(!isset($mapel_id))
     die();
 
 if(isset($_POST['btn-save'])) {
+    // $review = true;
+
     // check empty jawaban
     $idsoals = explode(',', $_POST['taken']);
     $jawabans = array();
@@ -37,6 +41,10 @@ if(isset($_POST['btn-save'])) {
         }
     }
 
+    // echo "<pre>";
+    // print_r($jawabans);
+    // echo "</pre>";
+
     // looping for insert to table
     foreach ($jawabans as $id => $jaw) { 
         $tryout = $db->escapeString($_POST['tryout']); // Escape any input before insert
@@ -44,15 +52,17 @@ if(isset($_POST['btn-save'])) {
         $jawaban = $db->escapeString($jaw);
 
         if($id != 'id_user' && $id != 'btn-save'){
-            $db->insert($data['table_hasil'], array('id_user'=>$id_user, 'tryout'=> $tryout, 'id_soal'=> $id_soal, 'jawaban'=> $jawaban));
+            // $db->update($data['table_hasil'], array('tryout'=> $tryout, 'jawaban'=> $jawaban), 'id_soal='.$id_soal);
+            $db->sql("UPDATE hasil SET tryout='".$tryout."',jawaban='".$jawaban."' WHERE id_soal=".$id_soal);
         }
+        // $inserted = $db->getResult();
+        // // echo $db->getSql();
+        // // var_dump($inserted);
 
-        $inserted = $db->getResult();
-
-        if(!empty($inserted[0]) && is_int($inserted[0])){
-            $review = true;
-            $order  = 'FIELD (id, '.$_POST['taken'].')';
-        }
+        // if(!empty($inserted[0]) && is_int($inserted[0])){
+        //     $review = true;
+        //     $order  = 'FIELD (id, '.$_POST['taken'].')';
+        // }
     }
     // header ('Location: ' . $_SERVER['REQUEST_URI'].'&simpan');
 
@@ -62,18 +72,30 @@ if(isset($_POST['btn-save'])) {
     // exit();
 }
 
-if($review){
-    // get soal that have not taken
+$not_complete = is_not_complete($id_user, $id_kelas, $mapel_id);
+if($not_complete){
+
     $query = 'SELECT * FROM '.$data['table'].' soal
-            WHERE id IN (SELECT id_soal FROM '.$data['table_hasil'].' WHERE id_user = '.$id_user.'  AND id_soal IN ('.$_POST['taken'].') )
-            AND mapel_id = '.$mapel_id.' AND kelas_id = '.$id_kelas.'
-            ORDER BY FIELD (id, '.$_POST['taken'].') LIMIT '.$data['perpage'];
+        WHERE id IN (SELECT id_soal FROM '.$data['table_hasil'].' WHERE id_user = '.$id_user.'  AND tryout = 0 )
+        AND mapel_id = '.$mapel_id.' AND kelas_id = '.$id_kelas.'
+        LIMIT '.$data['perpage'];
+
 } else {
-    // get soal that have not taken
-    $query = 'SELECT * FROM '.$data['table'].' soal
-            WHERE id NOT IN (SELECT id_soal FROM '.$data['table_hasil'].' WHERE id_user = '.$id_user.')
-            AND mapel_id = '.$mapel_id.' AND kelas_id = '.$id_kelas.'
-            ORDER BY RAND() LIMIT '.$data['perpage'];
+    if($review || isset($_POST['btn-save'])){
+        $review = true;
+        // get soal 
+        $query = 'SELECT * FROM '.$data['table'].' soal
+                WHERE id IN (SELECT id_soal FROM '.$data['table_hasil'].' WHERE id_user = '.$id_user.'  AND id_soal IN ('.$_POST['taken'].') )
+                AND mapel_id = '.$mapel_id.' AND kelas_id = '.$id_kelas.'
+                ORDER BY FIELD (id, '.$_POST['taken'].') LIMIT '.$data['perpage'];
+    } else {
+        
+            // get soal that have not taken
+            $query = 'SELECT * FROM '.$data['table'].' soal
+                WHERE id NOT IN (SELECT id_soal FROM '.$data['table_hasil'].' WHERE id_user = '.$id_user.')
+                AND mapel_id = '.$mapel_id.' AND kelas_id = '.$id_kelas.'
+                ORDER BY RAND() LIMIT '.$data['perpage'];
+    }
 }
 
 $is_post = (!empty($_POST['tryout'])) ? true : false;
@@ -114,7 +136,8 @@ MAIN CONTENT
             ?>  
                 <h3>
                     <i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($soals[0]['mapel_id']) .' ( Tryout : '.$tryout.' )'; ?>
-                    <a class="pull-right btn btn-success" href="dashboard-siswa.php"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a>
+                    <!-- <a class="pull-right btn btn-success" href="dashboard-siswa.php"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a> -->
+                    <div class="pull-right timer"><time>0h 18m 3s</time><!-- Paris (winter) --></div>
                 </h3>
             <?php } ?>
 
@@ -125,15 +148,23 @@ MAIN CONTENT
                         <!-- Pertanyaan -->
                         <?php  
                         if(is_array($soals)){
+                        $i=1;
                         foreach ($soals as $key => $pertanyaan) { 
                         $id = $pertanyaan['id'];
+                        // langsung insert default jawaban
+                        if(!$not_complete && !isset($_POST['btn-save'])){
+                            $db->insert($data['table_hasil'], array('id_user'=>$id_user, 'tryout'=> '0', 'id_soal'=> $pertanyaan['id'], 'jawaban'=> 'x'));
+                        }
+                        if((($i-1 % 2) == 0) || $i == 1){
+                            echo '<div class="row">';
+                        }
                         ?>                 
                         <div class="col-md-6">
                             <section class="task-panel tasks-widget">
                                 <div class="panel-heading">
                                    <div class="pull-left">
                                       <h5 class="pertanyaan">
-                                         <i class="fa fa-arrow-circle-o-right" style="margin-right:5px;"></i> 
+                                         <?php echo $i.'. '; ?>
                                          <?php echo $pertanyaan['soal']; ?>
                                       </h5>
                                    </div>
@@ -188,6 +219,10 @@ MAIN CONTENT
                             </section>
                         </div>
                         <?php
+                            if((($i+1 % 2) == 0) || $i == 2){
+                                echo '</div>';
+                            }
+                            $i++;
                             }
                         }
                         ?>
@@ -230,6 +265,24 @@ MAIN CONTENT
         </section><! --/wrapper -->
     </section><!-- /MAIN CONTENT -->
 <!--main content end-->
+<script>
+window.jQuery(function ($) {
+    "use strict";
+
+    $('time').countDown({
+        // with_labels: false,
+        with_separators: false,
+        label_dd: 'hari',
+        label_hh: 'jam',
+        label_mm: 'menit',
+        label_ss: 'detik',
+    }).on('time.elapsed', function () {
+        // do something...
+        alert('rampong');
+    });;
+});
+</script>
+
 <?php  
 include('footer-siswa.php');
 ?>
