@@ -220,7 +220,7 @@ MAIN CONTENT
                             </section>
                         </div>
                         <?php
-                            if(($i+1 % 2) == 0){
+                            if((($i+1 % 2) == 0) || $i == 1){
                                 echo '</div>';
                             }
                             $i++;
