@@ -12,7 +12,7 @@ $data = array(
     'base_file' => 'index.php',
     'table' => 'soal',
     'table_hasil' => 'hasil',
-    'perpage' => '10',
+    'perpage' => '20',
     'questions_per_tryout' => 20,
     'max_tryout' => 3,
     );

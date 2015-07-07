@@ -62,9 +62,11 @@ $kelas = $db->escapeString($_SESSION['kelas']);
                             ?>
                             <div class="col-md-6">
                                 <div class="content-table">
-                                    <h3>Tryout <?php echo $tryout; ?></h3>
+                                    <h3>Tryout <?php echo $tryout; ?>
+                                      <a class="pull-right print" href="javascript:;" title="Cetak"><i class="fa fa-print" style="font-size:24px;"></i></a>
+                                    </h3>
                                     <hr>
-                                    <table class='table table-striped table-advance table-hover'>
+                                    <table id="tryout_<?php echo $tryout; ?>" class='table table-striped table-advance table-hover'>
                                         <tr>
                                            <th class="no">No.</th>
                                            <th>Soal</th>
@@ -113,6 +115,14 @@ $kelas = $db->escapeString($_SESSION['kelas']);
             </div>    
           </section>
       </section>
+
+      <script>
+      $('.print').on('click', function(e){
+        e.preventDefault();
+        var table = $(this).closest('.content-table').find('.table-striped').attr('id');
+        $("#"+table).print();
+      })
+      </script>
 
       <!--main content end-->
       <?php $notif = true; ?>
