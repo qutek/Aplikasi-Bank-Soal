@@ -295,7 +295,7 @@ function get_taken_tryout($id_user, $id_mapel, $id_kelas){
   $db->connect();
 
   $db->sql('SELECT tryout, mapel_id FROM hasil INNER JOIN soal on soal.id = hasil.id_soal
-            WHERE mapel_id = '.$id_mapel.' AND kelas_id = '.$id_kelas.' AND id_user = '.$id_user.'
+            WHERE mapel_id = '.$id_mapel.' AND kelas_id = '.$id_kelas.' AND id_user = '.$id_user.' AND tryout != 0
             GROUP BY tryout');
 
   $res = $db->getResult();

@@ -2354,3 +2354,22 @@ h5.pertanyaan {
   padding: 5px;
   background-color: #ffd777;
 }
+.print-element {
+    display: none;
+}
+@media print {
+    tr.print-element {
+        display: grid;
+    }
+    tr.print-element td {
+      border: none!important;
+      background-color: #fff!important;
+    }
+    .print-element td {
+        background: #fff;
+    }
+    .print-element td.value {
+      text-align: left;
+    }
+}
+

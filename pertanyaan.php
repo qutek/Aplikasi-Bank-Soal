@@ -1,6 +1,6 @@
 <?php  
 error_reporting(0);
-
+$start = $_SESSION['time_start'];
 include('inc/class.db.php');
 is_can_access(array('3'));
 
@@ -122,12 +122,16 @@ MAIN CONTENT
     <section id="main-content-pertanyaan">
         <section class="wrapper">
             <?php  
-            if($tryout == -1){ ?>
+            if($tryout == -1){ 
+                unset($_SESSION['time_start']);
+                ?>
                 <div class="not-found" style="margin-top:50px;">
                     <h1>Terima kasih</h1>
                     <p>Kembali ke <a href="dashboard-siswa.php">dashboard</a></p>
                 </div>
-            <?php } else if($tryout >= $data['max_tryout']){ ?>
+            <?php } else if($tryout >= $data['max_tryout']){ 
+                unset($_SESSION['time_start']);
+                ?>
                 <div class="not-found" style="margin-top:50px;">
                     <h1>Tryout anda telah selesai</h1>
                 </div>
@@ -137,7 +141,19 @@ MAIN CONTENT
                 <h3>
                     <i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($soals[0]['mapel_id']) .' ( Tryout : '.$tryout.' )'; ?>
                     <!-- <a class="pull-right btn btn-success" href="dashboard-siswa.php"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a> -->
-                    <div class="pull-right timer"><time>0h 18m 3s</time><!-- Paris (winter) --></div>
+                    <?php
+                    if(!$not_complete && !isset($_POST['btn-save'])){
+                        $_SESSION['time_start'] = date('Y-m-d h:i:s');
+                    }
+
+                    $start = (isset($_SESSION['time_start'])) ? $_SESSION['time_start'] : date('Y-m-d h:i:s');
+
+                    $currentDate = strtotime($start);
+                    $futureDate = $currentDate+(60*01);
+                    $formatDate = date(DATE_ISO8601, $futureDate);
+
+                    ?>
+                    <div class="pull-right timer" datetime="<?php echo $formatDate; ?>"></div>
                 </h3>
             <?php } ?>
 
@@ -235,7 +251,7 @@ MAIN CONTENT
                     <div class="row mt">
                       <div class="col-lg-12">
                          <div class="form-panel panel-submit">
-                            <button type="submit" class="btn btn-primary btn-lg" name="btn-save">Simpan Jawaban</button>
+                            <button id="submit" type="submit" class="btn btn-primary btn-lg" name="btn-save">Simpan Jawaban</button>
                          </div>
                          <!-- /form-panel -->
                       </div>
@@ -252,7 +268,9 @@ MAIN CONTENT
                         </div><!-- /col-lg-12 -->
                     </div>
 
-                    <?php } else { ?>
+                    <?php } else { 
+                    unset($_SESSION['time_start']);
+                        ?>
                         
                         <div class="not-found">
                             <h1>Maaf, Soal belum tersedia</h1>
@@ -270,7 +288,7 @@ MAIN CONTENT
 window.jQuery(function ($) {
     "use strict";
 
-    $('time').countDown({
+    $('.timer').countDown({
         // with_labels: false,
         with_separators: false,
         label_dd: 'hari',
@@ -279,8 +297,9 @@ window.jQuery(function ($) {
         label_ss: 'detik',
     }).on('time.elapsed', function () {
         // do something...
-        alert('rampong');
-    });;
+        alert('Waktu anda telah habis');
+        $('#submit').click();
+    });
 });
 </script>
 

@@ -67,6 +67,30 @@ $kelas = $db->escapeString($_SESSION['kelas']);
                                     </h3>
                                     <hr>
                                     <table id="tryout_<?php echo $tryout; ?>" class='table table-striped table-advance table-hover'>
+                                        <?php  
+                                        $userdata = get_userdata($id_user);
+                                        ?>
+                                        <tr class="print-element">
+                                          <td colspan="2"></td>
+                                          <td class="caption">Nama</td>
+                                          <td colspan="2" class="value">: <?php echo $userdata[0]['nama']; ?></td>
+                                        </tr>
+                                         <tr class="print-element">
+                                          <td colspan="2"></td>
+                                          <td class="caption">Kelas</td>
+                                          <td colspan="2" class="value">: <?php echo get_kelas_name($kelas); ?></td>
+                                        </tr>
+                                         <tr class="print-element">
+                                          <td colspan="2"></td>
+                                          <td class="caption">Mapel</td>
+                                          <td colspan="2" class="value">: <?php echo get_mapel_name($mapel_id); ?></td>
+                                        </tr>
+                                         <tr class="print-element">
+                                          <td colspan="2"></td>
+                                          <td class="caption">Tryout</td>
+                                          <td colspan="2" class="value">: Tryout ke <?php echo $tryout; ?></td>
+                                        </tr>
+
                                         <tr>
                                            <th class="no">No.</th>
                                            <th>Soal</th>
