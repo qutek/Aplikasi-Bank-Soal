@@ -63,7 +63,7 @@ class Pagination{
 	 * @var numeric
 	*/
 	private function set_instance(){
-		$this->_page = (int) (!isset($_GET[$this->_instance]) ? 1 : $_GET[$this->_instance]); 
+		$this->_page = (int) (!isset($_GET['hal']) ? 1 : $_GET['hal']); 
 		$this->_page = ($this->_page == 0 ? 1 : $this->_page);
 	}
 	/**

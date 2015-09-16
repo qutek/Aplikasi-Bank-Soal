@@ -1,5 +1,6 @@
 <?php  
 error_reporting(0);
+ini_set( 'date.timezone', 'Asia/Jakarta' );
 $start = $_SESSION['time_start'];
 include('inc/class.db.php');
 is_can_access(array('3'));
@@ -103,6 +104,9 @@ $tryout = get_latest_tryout($id_user, $mapel_id, $id_kelas, $data['questions_per
 // echo "<pre>";
 // print_r($query);
 // echo "</pre>";
+
+// echo $tryout;
+
 $db->sql($query);
 $soals = $db->getResult();
 $taken = list_pluck($soals,'id');
@@ -122,14 +126,15 @@ MAIN CONTENT
     <section id="main-content-pertanyaan">
         <section class="wrapper">
             <?php  
-            if($tryout == -1){ 
+            if(!$review && $tryout == -1){ 
                 unset($_SESSION['time_start']);
                 ?>
                 <div class="not-found" style="margin-top:50px;">
-                    <h1>Terima kasih</h1>
+                    <h1>Tryout Sesi Ini Selesai</h1>
                     <p>Kembali ke <a href="dashboard-siswa.php">dashboard</a></p>
                 </div>
-            <?php } else if($tryout >= $data['max_tryout']){ 
+            <?php } else if(!$review && $tryout > $data['max_tryout']){ 
+                // echo $tryout;
                 unset($_SESSION['time_start']);
                 ?>
                 <div class="not-found" style="margin-top:50px;">
@@ -139,21 +144,25 @@ MAIN CONTENT
                 if(!$review && !empty($soals)){
             ?>  
                 <h3>
-                    <i class="fa fa-mortar-board" style="margin-right:5px;"></i> Pertanyaan <?php echo get_mapel_name($soals[0]['mapel_id']) .' ( Tryout : '.$tryout.' )'; ?>
+                    <i class="fa fa-mortar-board" style="margin-right:5px;"></i> Soal <?php echo get_mapel_name($soals[0]['mapel_id']) .' ( Tryout : '.$tryout.' )'; ?> Selamat Mengerjakan, Waktu Anda 30 Menit !
                     <!-- <a class="pull-right btn btn-success" href="dashboard-siswa.php"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a> -->
                     <?php
                     date_default_timezone_set('Asia/Jakarta');
 
                     if(!$not_complete && !isset($_POST['btn-save'])){
-                        $_SESSION['time_start'] = date('Y-m-d h:i:s');
+                        $_SESSION['time_start'] = date('Y-m-d H:i:s');
+                    }
+                    
+                    if(!isset($_SESSION['time_start'])){
+                        $_SESSION['time_start'] = date('Y-m-d H:i:s');
                     }
 
-                    $start = (isset($_SESSION['time_start'])) ? $_SESSION['time_start'] : date('Y-m-d h:i:s');
+                    $start = (isset($_SESSION['time_start'])) ? $_SESSION['time_start'] : date('Y-m-d H:i:s');
 
                     $currentDate = strtotime($start);
                     $futureDate = $currentDate+(60*30);
                     $formatDate = date(DATE_ISO8601, $futureDate);
-
+                    // echo $start.'|'.$formatDate;
                     ?>
                     <div class="pull-right timer" datetime="<?php echo $formatDate; ?>"></div>
                 </h3>
@@ -193,7 +202,7 @@ MAIN CONTENT
                                    <div class="task-content">
                                         <ul id="sortable" class="task-list">
                                             <li class="list-primary <?php is_benar($pertanyaan['jawaban_benar'], 'a', $review); ?>">
-                                                <i class=" fa fa-ellipsis-v"></i>
+                                                <i><b><font size="2">A</font></b></i>
                                                 <div class="task-checkbox">
                                                     <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $id; ?>" value="a" <?php echo $is_disabled; ?>>
                                                 </div>
@@ -203,7 +212,7 @@ MAIN CONTENT
                                                 </div>
                                             </li>
                                             <li class="list-primary <?php is_benar($pertanyaan['jawaban_benar'], 'b', $review); ?>">
-                                                <i class=" fa fa-ellipsis-v"></i>
+                                                <i><b><font size="2">B</font></b></i>
                                                 <div class="task-checkbox">
                                                     <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $id; ?>" value="b" <?php echo $is_disabled; ?>>
                                                 </div>
@@ -213,7 +222,7 @@ MAIN CONTENT
                                                 </div>
                                             </li>
                                             <li class="list-primary <?php is_benar($pertanyaan['jawaban_benar'], 'c', $review); ?>">
-                                                <i class=" fa fa-ellipsis-v"></i>
+                                                <i><b><font size="2">C</font></b></i>
                                                 <div class="task-checkbox">
                                                     <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $id; ?>" value="c" <?php echo $is_disabled; ?>>
                                                 </div>
@@ -223,7 +232,7 @@ MAIN CONTENT
                                                 </div>
                                             </li>
                                             <li class="list-primary <?php is_benar($pertanyaan['jawaban_benar'], 'd', $review); ?>">
-                                                <i class=" fa fa-ellipsis-v"></i>
+                                                <i><b><font size="2">D</font></b></i>
                                                 <div class="task-checkbox">
                                                     <input type="radio" class="list-child jawaban" name="dipilih_<?php echo $id; ?>" value="d" <?php echo $is_disabled; ?>>
                                                 </div>
@@ -260,15 +269,26 @@ MAIN CONTENT
                       <!-- /col-lg-12 -->
                     </div>
 
-                    <?php } else if($review) { ?>
-
-                    <div class="row mt">
-                        <div class="col-lg-12">
-                            <div class="form-panel panel-submit text-right">
-                              <a href="javascript:window.location.href=window.location.href" class="btn btn-success btn-lg">Pertanyaan Selanjutnya</a>
-                            </div><!-- /form-panel -->
-                        </div><!-- /col-lg-12 -->
-                    </div>
+                    <?php } else if($review) { 
+                        $tryout = get_latest_tryout($id_user, $mapel_id, $id_kelas, $data['questions_per_tryout'], false);
+                        if ($tryout > $_POST['tryout']) { //stop ?>
+                            <div class="row mt">
+                                <div class="col-lg-12">
+                                    <div class="form-panel panel-submit" style="text-align:center;">
+                                        <h1>Tryout Sesi Ini Selesai</h1>
+                                        <p>Kembali ke <a href="dashboard-siswa.php">dashboard</a></p>
+                                    </div><!-- /form-panel -->
+                                </div><!-- /col-lg-12 -->
+                            </div>
+                        <?php } else { ?>
+                            <div class="row mt">
+                                <div class="col-lg-12">
+                                    <div class="form-panel panel-submit text-right">
+                                      <a href="javascript:window.location.href=window.location.href" class="btn btn-success btn-lg">Pertanyaan Selanjutnya</a>
+                                    </div><!-- /form-panel -->
+                                </div><!-- /col-lg-12 -->
+                            </div>
+                        <?php } ?>
 
                     <?php } else { 
                     unset($_SESSION['time_start']);

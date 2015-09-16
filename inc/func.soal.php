@@ -274,13 +274,18 @@ function get_latest_tryout($id_user, $id_mapel, $id_kelas, $max, $is_post=false)
   $db = new Database();
   $db->connect();
 
-  $db->sql('SELECT COUNT(hasil.id) count, IFNULL(tryout, 1) tryout FROM hasil 
-            INNER JOIN soal ON soal.id = hasil.id_soal
-            WHERE tryout = (SELECT MAX(tryout) FROM hasil)
-            AND hasil.id_user = '.$id_user.' AND soal.mapel_id = '.$id_mapel.'
-            AND soal.kelas_id = '.$id_kelas);
+  // $db->sql('SELECT COUNT(hasil.id) count, IFNULL(tryout, 1) tryout FROM hasil 
+  //           INNER JOIN soal ON soal.id = hasil.id_soal
+  //           WHERE tryout = (SELECT MAX(tryout) FROM hasil)
+  //           AND hasil.id_user = '.$id_user.' AND soal.mapel_id = '.$id_mapel.'
+  //           AND soal.kelas_id = '.$id_kelas);
+  
+  $db->sql('SELECT id_user, COUNT(hasil.id) count, MAX(IFNULL(tryout, 1)) tryout FROM hasil INNER JOIN soal ON soal.id = hasil.id_soal WHERE 
+    hasil.id_user = '.$id_user.' AND soal.mapel_id = '.$id_mapel.' AND soal.kelas_id = '.$id_kelas); 
 
   $res = $db->getResult();
+  // echo $db->getSql();
+  // echo $res[0]['count'] . '|' . $max;
   if($res[0]['count'] >= $max){
     $tryout = ($is_post) ? -1 : $res[0]['tryout']+1;
   } else {

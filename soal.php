@@ -390,25 +390,32 @@ $db->connect();
                     ***************************************/
 
                     $where = '';
-                    if(!empty($_POST['kelas']) || !empty($_POST['mapel'])){
+                    if(!empty($_REQUEST['kelas']) || !empty($_REQUEST['mapel'])){
 
-                        if (!empty($_POST['kelas'])){
-                            $wh_kelas = 'kelas_id='.$db->escapeString($_POST['kelas']);
+                        if (!empty($_REQUEST['kelas'])){
+                            $wh_kelas = 'kelas_id='.$db->escapeString($_REQUEST['kelas']);
                         }
 
-                        if (!empty($_POST['mapel'])){
-                            $wh_mapel = 'mapel_id='.$db->escapeString($_POST['mapel']);
+                        if (!empty($_REQUEST['mapel'])){
+                            $wh_mapel = 'mapel_id='.$db->escapeString($_REQUEST['mapel']);
                         }
 
-                        $separator = (!empty($_POST['kelas']) && !empty($_POST['mapel'])) ? ' AND ' : '';
+                        $separator = (!empty($_REQUEST['kelas']) && !empty($_REQUEST['mapel'])) ? ' AND ' : '';
 
                         $where .= $wh_kelas.$separator.$wh_mapel;
                         
                     }
 
+                    $req = '';
+                    if(!empty($_REQUEST['mapel'])){
+                        $req .= 'mapel='.$_REQUEST['mapel'].'&';
+                    }
+                    if(!empty($_REQUEST['kelas'])){
+                        $req .= 'kelas='.$_REQUEST['kelas'].'&';
+                    }
                     // select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
                     $db->select($data['table'],'id', '', $where);
-                    $pages = new Pagination($data['perpage'],'hal');
+                    $pages = new Pagination($data['perpage'], $req . 'hal');
                     $pages->set_total($db->numRows()); // pass number of rows to use on pagination
                     
                     $dbsoal = new Database();
@@ -417,7 +424,7 @@ $db->connect();
                     $res = $dbsoal->getResult();
 
                     // echo "<pre>";
-                    // print_r($resu);
+                    // print_r($_POST);
                     // echo "</pre>";
                     ?>
                     <section class="wrapper">
@@ -431,16 +438,20 @@ $db->connect();
                                                 <option value="">Pilih Kelas</option>
                                                 <?php 
                                                 $kelas = get_kelas();
-                                                foreach ($kelas as $key => $kelas) { ?>
-                                                    <option value="<?php echo $kelas['id']; ?>"><?php echo $kelas['kelas']; ?></option>
+                                                foreach ($kelas as $key => $kelas) { 
+                                                    $s_kelas = (!empty($_REQUEST['kelas']) && $_REQUEST['kelas'] == $kelas['id']) ? 'selected="selected"' : '';
+                                                ?>
+                                                    <option value="<?php echo $kelas['id']; ?>" <?php echo $s_kelas; ?>><?php echo $kelas['kelas']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             <select class="form-control" name="mapel">
                                                 <option value="">Mapel</option>
                                                 <?php  
                                                 $mapel = get_mapel();
-                                                foreach ($mapel as $key => $mapel) { ?>
-                                                    <option value="<?php echo $mapel['id']; ?>"><?php echo $mapel['mapel']; ?></option>
+                                                foreach ($mapel as $key => $mapel) { 
+                                                    $s_mapel = (!empty($_REQUEST['mapel']) && $_REQUEST['mapel'] == $mapel['id']) ? 'selected="selected"' : '';
+                                                ?>
+                                                    <option value="<?php echo $mapel['id']; ?>" <?php echo $s_mapel; ?>><?php echo $mapel['mapel']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             <button type="submit" class="btn btn-theme04">Pilih</button>
